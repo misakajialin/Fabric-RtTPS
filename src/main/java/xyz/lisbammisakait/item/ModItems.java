@@ -21,19 +21,25 @@ public class ModItems {
 //        final RegistryKey<Item> registryKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, path));
 //        return Items.register(registryKey, factory, settings);
 //    }
-public static final RegistryKey<Item> FEILONGDUOFENG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "feilongduofeng"));
+    //注册飞龙夺凤
+    public static final RegistryKey<Item> FEILONGDUOFENG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "feilongduofeng"));
     public static final Item FEILONGDUOFENG = register(new FeilongduofengItem(ToolMaterial.GOLD, 1f, 1f, new Item.Settings().registryKey(FEILONGDUOFENG_KEY)), FEILONGDUOFENG_KEY);
+    //注册虎头湛金枪
+    public static final RegistryKey<Item> HUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "hutouzhanjinqiang"));
+    public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 1f, 1f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY)), HUTOUZHANJINQIANG_KEY);
+
     public static Item register(Item item, RegistryKey<Item> registryKey) {
     // Register the item.
         Item registeredItem = Registry.register(Registries.ITEM, registryKey.getValue(), item);
-
      // Return the registered item!
         return registeredItem;
     }
 
+
     public static void registerToVanillaItemGroups() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
             content.add(FEILONGDUOFENG);
+            content.add(HUTOUZHANJINQIANG);
         });
     }
     public static void initialize() {
