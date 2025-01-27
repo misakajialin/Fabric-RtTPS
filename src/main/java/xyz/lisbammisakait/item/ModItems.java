@@ -39,10 +39,13 @@ public class ModItems {
 //    }
     //注册飞龙夺凤
     public static final RegistryKey<Item> FEILONGDUOFENG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "feilongduofeng"));
-    public static final Item FEILONGDUOFENG = register(new FeilongduofengItem(ToolMaterial.GOLD, 4f, 1f, new Item.Settings().registryKey(FEILONGDUOFENG_KEY)), FEILONGDUOFENG_KEY);
+    public static final Item FEILONGDUOFENG = register(new FeilongduofengItem(ToolMaterial.GOLD, 4f, 20f, new Item.Settings().registryKey(FEILONGDUOFENG_KEY)), FEILONGDUOFENG_KEY);
     //注册虎头湛金枪
     public static final RegistryKey<Item> HUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "hutouzhanjinqiang"));
-    public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 1f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY).component(RtTPSComponents.COOLDOWN_TYPE,HutouzhanjinqiangItem.COOLDOWN)), HUTOUZHANJINQIANG_KEY);
+    public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 20f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY).component(RtTPSComponents.COOLDOWN_TYPE,HutouzhanjinqiangItem.COOLDOWN)), HUTOUZHANJINQIANG_KEY);
+    //注册神威虎头湛金枪
+    public static final RegistryKey<Item> SHENWEIHUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "shenweihutouzhanjinqiang"));
+    public static final Item SHENWEIHUTOUZHANJINQIANG = register(new ShenweihutouzhanjianjinqiangItem(ToolMaterial.GOLD, 8f, 20f, new Item.Settings().registryKey(SHENWEIHUTOUZHANJINQIANG_KEY)), SHENWEIHUTOUZHANJINQIANG_KEY);
     //-----------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------
     //注册引凤来翔
@@ -80,6 +83,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(RTTPS_ITEM_GROUP_KEY).register(itemGroup -> {
             itemGroup.add(ModItems.FEILONGDUOFENG);
             itemGroup.add(ModItems.HUTOUZHANJINQIANG);
+            itemGroup.add(ModItems.SHENWEIHUTOUZHANJINQIANG);
         });
     }
     public static void initialize() {

@@ -86,14 +86,24 @@ public class HutouzhanjinqiangItem extends SwordItem {
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-        // Don't do anything on the client
+//        ItemStack stack = user.getStackInHand(hand);
+//        // Don't do anything on the client
         if (world.isClient()) {
             return ActionResult.SUCCESS;
         }
-        // Read the current count and increase it by one
-        int count = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, 0);
-        stack.set(RtTPSComponents.COOLDOWN_TYPE, ++count);
-        return ActionResult.SUCCESS;
+//
+//        // Read the current count and increase it by one
+//        int count = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, 0);
+//        stack.set(RtTPSComponents.COOLDOWN_TYPE, ++count);
+//        return ActionResult.SUCCESS;
+
+        if (user != null) {
+            // 创建一个新的物品栈，这里以钻石为例
+            ItemStack newItemStack = new ItemStack(ModItems.SHENWEIHUTOUZHANJINQIANG, 1);
+            // 将主手物品更换为新的物品栈
+            user.getInventory().main.set(user.getInventory().selectedSlot, newItemStack);
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.FAIL;
     }
 }

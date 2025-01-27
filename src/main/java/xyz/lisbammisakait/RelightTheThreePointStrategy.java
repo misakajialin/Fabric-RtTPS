@@ -35,6 +35,10 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 					// 为玩家添加加速效果
 					player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 1));
 				}
+				// 如果玩家的主手或副手拿着神威虎头湛金枪
+				if(mainHandStack.getItem() == ModItems.SHENWEIHUTOUZHANJINQIANG || offHandStack.getItem() == ModItems.SHENWEIHUTOUZHANJINQIANG){
+					player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 2));
+				}
 			}
 		});
 		LOGGER.info("Hello Fabric world!");
