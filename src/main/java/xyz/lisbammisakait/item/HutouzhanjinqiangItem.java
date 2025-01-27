@@ -36,7 +36,7 @@ public class HutouzhanjinqiangItem extends SwordItem {
     }
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("itemskill.relight-the-three-point-strategy.hutouzhanjinqiang").formatted(Formatting.GOLD));
+        tooltip.add(Text.translatable("itemskill.relight-the-three-point-strategy.hutouzhanjinqiang",COOLDOWN).formatted(Formatting.GOLD));
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
@@ -75,14 +75,14 @@ public class HutouzhanjinqiangItem extends SwordItem {
         RelightTheThreePointStrategy.LOGGER.info("攻击者传送到目标位置");
         return super.postHit(stack, target, attacker);
     }
-    @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        if (stack.contains(RtTPSComponents.COOLDOWN_TYPE)) {
-            //int rct = stack.get(RtTPSComponents.COOLDOWN_TYPE);
-            int rct = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, COOLDOWN);
-            tooltip.add(Text.translatable("item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time", rct).formatted(Formatting.GOLD));
-        }
-    }
+//    @Override
+//    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+//        if (stack.contains(RtTPSComponents.COOLDOWN_TYPE)) {
+//            //int rct = stack.get(RtTPSComponents.COOLDOWN_TYPE);
+//            int rct = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, COOLDOWN);
+//            tooltip.add(Text.translatable("item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time", rct).formatted(Formatting.GOLD));
+//        }
+//    }
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
