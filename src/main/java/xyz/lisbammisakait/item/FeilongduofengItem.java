@@ -1,6 +1,9 @@
 package xyz.lisbammisakait.item;
 
 
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.ActionResult;
@@ -26,7 +29,7 @@ public class FeilongduofengItem extends SwordItem {
             double motionX = attacker.getRotationVector().x;
             double motionZ = attacker.getRotationVector().z;
             // 计算击退强度，这里假设一个简单的强度值
-            double knockbackStrength = 1;
+            double knockbackStrength = 1.5;
             // 给目标添加击退效果
            //target.addVelocity(motionX * knockbackStrength, 0.5, motionZ * knockbackStrength);
             target.takeKnockback(knockbackStrength, -motionX, -motionZ);

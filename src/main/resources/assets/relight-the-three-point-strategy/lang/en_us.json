@@ -1,6 +1,7 @@
 {
   "item.relight-the-three-point-strategy.feilongduofeng": "feilongduofeng",
   "item.relight-the-three-point-strategy.hutouzhanjinqiang": "hutouzhanjinqiang",
-  "key.examplemod.spook": "Spook Key",
-  "category.examplemod.test": "Example Mod Test"
+  "key.RelightTheThreePointStrategy.SkillA": "SkillA",
+  "key.RelightTheThreePointStrategy.SkillB": "SkillB",
+  "category.RelightTheThreePointStrategy.SkillGroup": "Skill Group"
 }
