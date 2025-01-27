@@ -1,7 +1,6 @@
 package xyz.lisbammisakait;
 
 import net.fabricmc.api.ModInitializer;
-
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -35,6 +34,10 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 				if (mainHandStack.getItem() == ModItems.HUTOUZHANJINQIANG || offHandStack.getItem() == ModItems.HUTOUZHANJINQIANG) {
 					// 为玩家添加加速效果
 					player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 1));
+				}
+				// 如果玩家的主手或副手拿着神威虎头湛金枪
+				if(mainHandStack.getItem() == ModItems.SHENWEIHUTOUZHANJINQIANG || offHandStack.getItem() == ModItems.SHENWEIHUTOUZHANJINQIANG){
+					player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 2));
 				}
 			}
 		});

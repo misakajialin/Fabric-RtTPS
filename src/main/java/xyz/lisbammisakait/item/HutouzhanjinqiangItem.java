@@ -1,29 +1,42 @@
 package xyz.lisbammisakait.item;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
+import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.tools.SafeTp;
 
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.List;
 import java.util.Set;
 
 
 
 public class HutouzhanjinqiangItem extends SwordItem {
+    public static final int COOLDOWN = 30;
     public HutouzhanjinqiangItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
+    }
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        tooltip.add(Text.translatable("itemskill.relight-the-three-point-strategy.hutouzhanjinqiang",COOLDOWN).formatted(Formatting.GOLD));
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
@@ -62,17 +75,35 @@ public class HutouzhanjinqiangItem extends SwordItem {
         RelightTheThreePointStrategy.LOGGER.info("攻击者传送到目标位置");
         return super.postHit(stack, target, attacker);
     }
-//    private boolean isSafeLocation(BlockView world, BlockPos pos) {
-//        if (world.getBlockState(pos).isAir() && world.getBlockState(pos.up()).isAir()) {
-//            return true;
+//    @Override
+//    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+//        if (stack.contains(RtTPSComponents.COOLDOWN_TYPE)) {
+//            //int rct = stack.get(RtTPSComponents.COOLDOWN_TYPE);
+//            int rct = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, COOLDOWN);
+//            tooltip.add(Text.translatable("item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time", rct).formatted(Formatting.GOLD));
 //        }
-//        if(world.getBlockState(pos).getBlock() == Blocks.LIGHT && world.getBlockState(pos.up()).getBlock() == Blocks.LIGHT){
-//            return true;
-//        }
-//        return false;
 //    }
 
+    @Override
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+//        ItemStack stack = user.getStackInHand(hand);
+//        // Don't do anything on the client
+        if (world.isClient()) {
+            return ActionResult.SUCCESS;
+        }
+//
+//        // Read the current count and increase it by one
+//        int count = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, 0);
+//        stack.set(RtTPSComponents.COOLDOWN_TYPE, ++count);
+//        return ActionResult.SUCCESS;
 
-
-
+        if (user != null) {
+            // 创建一个新的物品栈，这里以钻石为例
+            ItemStack newItemStack = new ItemStack(ModItems.SHENWEIHUTOUZHANJINQIANG, 1);
+            // 将主手物品更换为新的物品栈
+            user.getInventory().main.set(user.getInventory().selectedSlot, newItemStack);
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.FAIL;
+    }
 }

@@ -1,7 +1,20 @@
 {
-  "item.relight-the-three-point-strategy.feilongduofeng": "feilongduofeng",
-  "item.relight-the-three-point-strategy.hutouzhanjinqiang": "hutouzhanjinqiang",
+  "item.relight-the-three-point-strategy.feilongduofeng": "FeiLongDuoFeng",
+  "item.relight-the-three-point-strategy.hutouzhanjinqiang": "HuTouZhanJinQiang",
+  "item.relight-the-three-point-strategy.tiejitachuan":"TieJiTachuan",
+  "item.relight-the-three-point-strategy.yinfenglaixiang": "YinFengLaiXiang",
+  "item.relight-the-three-point-strategy.shenweihutouzhanjinqiang": "ShenWeiHuTouZhanJinQiang",
   "key.RelightTheThreePointStrategy.SkillA": "SkillA",
   "key.RelightTheThreePointStrategy.SkillB": "SkillB",
-  "category.RelightTheThreePointStrategy.SkillGroup": "Skill Group"
+  "category.RelightTheThreePointStrategy.SkillGroup": "Skill Group",
+  "item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time": "Remaining Cooldown Time: %1$s s",
+  "itemskill.relight-the-three-point-strategy.shenweihutouzhanjinqiang": "ShenWeiHuTouZhanJinQiang",
+  "skillGroup.RelightTheThreePointStrategy": "Skill",
+  "rttpsGroup.RelightTheThreePointStrategy": "Weapon",
+  "key.RelightTheThreePointStrategy.SkillA": "SkillA",
+  "key.RelightTheThreePointStrategy.SkillB": "SkillB",
+  "category.RelightTheThreePointStrategy.SkillGroup": "Skill Group",
+  "skill.relight-the-three-point-strategy.tiejitachuan": "§a[Passive] §fWhen you hold a weapon, you gain a speed - up effect. When you perform a basic attack, you dash 3 blocks towards the target.",
+  "skill.relight-the-three-point-strategy.yinfenglaixiang": "§a[Passive] §fEach of your basic attacks has a %1$s%% chance to apply a knockback effect and a %2$s - second burn effect.",
+  "itemskill.relight-the-three-point-strategy.hutouzhanjinqiang": "§6[Active][%1$ss] §fRight - click to strengthen the weapon, increasing its damage and speed - up effect until the next basic attack."
 }
