@@ -1,7 +1,11 @@
 {
+  "skillGroup.RelightTheThreePointStrategy": "重燃三分武器",
+  "rttpsGroup.RelightTheThreePointStrategy": "重燃三分技能",
   "item.relight-the-three-point-strategy.feilongduofeng": "飞龙夺凤",
   "item.relight-the-three-point-strategy.hutouzhanjinqiang": "虎头湛金枪",
   "key.RelightTheThreePointStrategy.SkillA": "技能A",
   "key.RelightTheThreePointStrategy.SkillB": "技能B",
-  "category.RelightTheThreePointStrategy.SkillGroup": "技能组"
+  "category.RelightTheThreePointStrategy.SkillGroup": "技能组",
+  "item.relight-the-three-point-strategy.yinfenglaixiang": "引凤来翔",
+  "skill.relight-the-three-point-strategy.yinfenglaixiang": "§e[被动]\n§2你的每下普攻都有概率附带火焰与击退。"
 }

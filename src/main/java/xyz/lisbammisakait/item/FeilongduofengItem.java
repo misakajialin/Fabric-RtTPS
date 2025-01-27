@@ -6,11 +6,15 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 
+import java.util.List;
 import java.util.Random;
 
 public class FeilongduofengItem extends SwordItem {
