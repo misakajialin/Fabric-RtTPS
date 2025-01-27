@@ -30,6 +30,9 @@ public class RelightTheThreePointStrategyClient implements ClientModInitializer 
             while (keyBindingV.wasPressed()) {
                 RelightTheThreePointStrategy.LOGGER.info("VVVVVVV!");
             }
+            while (keyBindingB.wasPressed()) {
+                RelightTheThreePointStrategy.LOGGER.info("BBBBBBB!");
+            }
         });
     }
 }
