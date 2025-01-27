@@ -27,7 +27,7 @@ public class ShenweihutouzhanjianjinqiangItem extends HutouzhanjinqiangItem {
             return true;
         }
         PlayerEntity user = (PlayerEntity) attacker;
-        // 创建一个新的物品栈，这里以钻石为例
+        // 创建一个新的物品栈
         ItemStack newItemStack = new ItemStack(ModItems.HUTOUZHANJINQIANG, 1);
         // 将主手物品更换为新的物品栈
         user.getInventory().main.set(user.getInventory().selectedSlot, newItemStack);

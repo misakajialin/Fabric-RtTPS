@@ -12,9 +12,9 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import xyz.lisbammisakait.Skill.TieJiTaChuanSkill;
+import xyz.lisbammisakait.skill.TieJiTaChuanSkill;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
-import xyz.lisbammisakait.Skill.YinFengLaiXiangSkill;
+import xyz.lisbammisakait.skill.YinFengLaiXiangSkill;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 
 public class ModItems {

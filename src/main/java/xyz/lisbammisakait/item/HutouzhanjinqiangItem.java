@@ -86,22 +86,27 @@ public class HutouzhanjinqiangItem extends SwordItem {
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-//        ItemStack stack = user.getStackInHand(hand);
-//        // Don't do anything on the client
+       ItemStack stack = user.getStackInHand(hand);
+//         Don't do anything on the client
         if (world.isClient()) {
             return ActionResult.SUCCESS;
         }
-//
-//        // Read the current count and increase it by one
-//        int count = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, 0);
-//        stack.set(RtTPSComponents.COOLDOWN_TYPE, ++count);
-//        return ActionResult.SUCCESS;
+
+        // 获取物品冷却管理器
+        if (user.getItemCooldownManager().isCoolingDown(stack)) {
+            // 如果物品正在冷却中，返回失败
+            return ActionResult.FAIL;
+        }
 
         if (user != null) {
-            // 创建一个新的物品栈，这里以钻石为例
+            // 创建一个新的物品栈
             ItemStack newItemStack = new ItemStack(ModItems.SHENWEIHUTOUZHANJINQIANG, 1);
             // 将主手物品更换为新的物品栈
             user.getInventory().main.set(user.getInventory().selectedSlot, newItemStack);
+
+            // 设置物品进入冷却状态
+            user.getItemCooldownManager().set(stack, COOLDOWN * 20); // 注意：冷却时间单位是游戏刻，1 秒 = 20 游戏刻
+
             return ActionResult.SUCCESS;
         }
         return ActionResult.FAIL;
