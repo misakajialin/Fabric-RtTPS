@@ -10,6 +10,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import xyz.lisbammisakait.Skill.TieJiTaChuanSkill;
 import xyz.lisbammisakait.Skill.YinFengLaiXiangSkill;
 
 import java.util.function.Function;
@@ -40,9 +41,13 @@ public class ModItems {
     public static final RegistryKey<Item> HUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "hutouzhanjinqiang"));
     public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 1f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY)), HUTOUZHANJINQIANG_KEY);
     //-----------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------
     //注册引凤来翔
     public static final RegistryKey<Item> YINFENGLAIXIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "yinfenglaixiang"));
     public static final Item YINFENGLAIXIANG = register(new YinFengLaiXiangSkill( new Item.Settings().registryKey(YINFENGLAIXIANG_KEY)), YINFENGLAIXIANG_KEY);
+    //注册铁骑踏川
+    public static final RegistryKey<Item> TIEJITACHUAN_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "tiejitachuan"));
+    public static final Item TIEJITACHUAN = register(new TieJiTaChuanSkill( new Item.Settings().registryKey(TIEJITACHUAN_KEY)), TIEJITACHUAN_KEY);
 
     public static Item register(Item item, RegistryKey<Item> registryKey) {
     // Register the item.
@@ -58,12 +63,15 @@ public class ModItems {
             content.add(HUTOUZHANJINQIANG);
         });
     }*/
+    //注册技能
     public static void registerToSkillGroups() {
         Registry.register(Registries.ITEM_GROUP, SKILL_GROUP_KEY, SKILL_GROUP);
         ItemGroupEvents.modifyEntriesEvent(SKILL_GROUP_KEY).register(itemGroup -> {
             itemGroup.add(ModItems.YINFENGLAIXIANG);
+            itemGroup.add(ModItems.TIEJITACHUAN);
         });
     }
+    //注册武器
     public static void registerToRtTPSGroups() {
         Registry.register(Registries.ITEM_GROUP, RTTPS_ITEM_GROUP_KEY, RTTPS_GROUP);
         ItemGroupEvents.modifyEntriesEvent(RTTPS_ITEM_GROUP_KEY).register(itemGroup -> {

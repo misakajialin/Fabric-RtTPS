@@ -26,8 +26,8 @@ public class FeilongduofengItem extends SwordItem {
         Random random = new Random();
         // 生成一个 0 到 9 之间的随机整数
         int randomNumber = random.nextInt(10);
-        // 判断随机数是否为 0
-        if (randomNumber<10) {
+        // 判断随机数是否为 0或1
+        if (randomNumber<2) {
             // 给目标添加火焰效果
             target.setFireTicks(60);
             double motionX = attacker.getRotationVector().x;
