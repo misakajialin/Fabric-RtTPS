@@ -41,11 +41,12 @@ public class RelightTheThreePointStrategyClient implements ClientModInitializer 
     private void useSkill(MinecraftClient client,int slot) {
         PlayerInventory inventory = client.player.getInventory();
         ItemStack skillStack = inventory.getStack(slot);
+        //
         if (skillStack.isEmpty()||!(skillStack.getItem() instanceof Skillable)) {
             RelightTheThreePointStrategy.LOGGER.info("并非技能物品");
             return;
         }
         Skillable skill = (Skillable) skillStack.getItem();
-        skill.useSkill(client);
+        skill.castSkill(client);
     }
 }

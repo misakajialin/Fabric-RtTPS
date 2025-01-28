@@ -12,6 +12,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import xyz.lisbammisakait.skill.LiuBeiASkill;
 import xyz.lisbammisakait.skill.TieJiTaChuanSkill;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.skill.YinFengLaiXiangSkill;
@@ -55,6 +56,8 @@ public class ModItems {
     public static final RegistryKey<Item> TIEJITACHUAN_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "tiejitachuan"));
     public static final Item TIEJITACHUAN = register(new TieJiTaChuanSkill( new Item.Settings().registryKey(TIEJITACHUAN_KEY)), TIEJITACHUAN_KEY);
 
+    public static final RegistryKey<Item> LIUBEIASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "longnudiwei"));
+    public static final Item LIUBEIASKILL = register(new LiuBeiASkill( new Item.Settings().registryKey(LIUBEIASKILL_KEY)), LIUBEIASKILL_KEY);
     public static Item register(Item item, RegistryKey<Item> registryKey) {
     // Register the item.
         Item registeredItem = Registry.register(Registries.ITEM, registryKey.getValue(), item);
@@ -75,6 +78,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(SKILL_GROUP_KEY).register(itemGroup -> {
             itemGroup.add(ModItems.YINFENGLAIXIANG);
             itemGroup.add(ModItems.TIEJITACHUAN);
+            itemGroup.add(ModItems.LIUBEIASKILL);
         });
     }
     //注册武器
