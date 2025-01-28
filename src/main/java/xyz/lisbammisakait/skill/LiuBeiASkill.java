@@ -22,7 +22,7 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
     private final int  EFFECT_AMPLIFIER = 1;
     private final int RECOVERHEALTH = 5;
     private final int RANGE = 5;
-    public static final int COOLDOWN = 10;
+    public static final int COOLDOWN = 40;
 
     public LiuBeiASkill(Settings settings) {
         super(settings);
