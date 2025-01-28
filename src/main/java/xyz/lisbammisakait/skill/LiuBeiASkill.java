@@ -11,16 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
-import xyz.lisbammisakait.RelightTheThreePointStrategyClient;
-import xyz.lisbammisakait.item.FeilongduofengItem;
 
 import java.util.List;
 
-public class LiuBeiASkill extends Item implements Skillable {
+public class LiuBeiASkill extends Item implements ActiveSkillable {
     private final int EFFECT_DURATION = 10;
     private final int  EFFECT_AMPLIFIER = 1;
     private final int RECOVERHEALTH = 5;

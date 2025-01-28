@@ -9,7 +9,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
-import xyz.lisbammisakait.skill.Skillable;
+import xyz.lisbammisakait.skill.ActiveSkillable;
 
 public class RelightTheThreePointStrategyClient implements ClientModInitializer {
     private static KeyBinding keyBindingV;
@@ -42,11 +42,11 @@ public class RelightTheThreePointStrategyClient implements ClientModInitializer 
         PlayerInventory inventory = client.player.getInventory();
         ItemStack skillStack = inventory.getStack(slot);
         //
-        if (skillStack.isEmpty()||!(skillStack.getItem() instanceof Skillable)) {
+        if (skillStack.isEmpty()||!(skillStack.getItem() instanceof ActiveSkillable)) {
             RelightTheThreePointStrategy.LOGGER.info("并非技能物品");
             return;
         }
-        Skillable skill = (Skillable) skillStack.getItem();
+        ActiveSkillable skill = (ActiveSkillable) skillStack.getItem();
         skill.castSkill(client,skillStack);
     }
 }
