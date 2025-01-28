@@ -13,6 +13,7 @@ public class RtTPSComponents {
         // Technically this method can stay empty, but some developers like to notify
         // the console, that certain parts of the mod have been successfully initialized
     }
+    //注册冷却时间组件
     public static final ComponentType<Integer> COOLDOWN_TYPE = Registry.register(
             Registries.DATA_COMPONENT_TYPE,
             Identifier.of(RelightTheThreePointStrategy.MOD_ID, "cooldown"),

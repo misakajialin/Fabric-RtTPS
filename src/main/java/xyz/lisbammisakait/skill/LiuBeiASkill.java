@@ -22,7 +22,7 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
     private final int  EFFECT_AMPLIFIER = 1;
     private final int RECOVERHEALTH = 5;
     private final int RANGE = 5;
-    private final int COOLDOWN = 30;
+    public static final int COOLDOWN = 10;
 
     public LiuBeiASkill(Settings settings) {
         super(settings);
@@ -33,6 +33,7 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
         ClientPlayerEntity user = client.player;
         if (user.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
+            user.sendMessage(Text.of("技能冷却中"), false);
             return ;
         }
 
@@ -52,6 +53,8 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
                 nearbyPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, EFFECT_DURATION*20, EFFECT_AMPLIFIER));
 //           }
         }
+        // 设置物品冷却时间
+        user.getItemCooldownManager().set(stack, COOLDOWN * 20);
 
     }
     @Override
