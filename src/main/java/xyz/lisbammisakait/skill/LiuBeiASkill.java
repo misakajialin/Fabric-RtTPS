@@ -32,10 +32,10 @@ public class LiuBeiASkill extends Item implements Skillable {
     }
 
     @Override
-    public void castSkill(MinecraftClient client) {
+    public void castSkill(MinecraftClient client, ItemStack stack) {
         ClientPlayerEntity user = client.player;
         if (user.getItemCooldownManager().isCoolingDown(stack)) {
-            // 如果物品正在冷却中，返回失败
+            // 如果物品正在冷却中，直接返回
             return ;
         }
 

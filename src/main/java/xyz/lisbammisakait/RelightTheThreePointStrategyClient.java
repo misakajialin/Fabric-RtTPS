@@ -47,6 +47,6 @@ public class RelightTheThreePointStrategyClient implements ClientModInitializer 
             return;
         }
         Skillable skill = (Skillable) skillStack.getItem();
-        skill.castSkill(client);
+        skill.castSkill(client,skillStack);
     }
 }
