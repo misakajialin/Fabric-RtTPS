@@ -13,6 +13,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import xyz.lisbammisakait.skill.LiuBeiASkill;
+import xyz.lisbammisakait.skill.LiuBeiBSkill;
 import xyz.lisbammisakait.skill.TieJiTaChuanSkill;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.skill.YinFengLaiXiangSkill;
@@ -32,7 +33,7 @@ public class ModItems {
             .displayName(Text.translatable("rttpsGroup.RelightTheThreePointStrategy"))
             .build();
 
-//    public static final Item FEILONGDUOFENG = register("feilongduofeng", Item::new, new Item.Settings());
+    //    public static final Item FEILONGDUOFENG = register("feilongduofeng", Item::new, new Item.Settings());
 //    public static final Item FEILONGDUOFENG = register();
 //    public static Item register(String path, Function<Item.Settings, Item> factory, Item.Settings settings) {
 //        final RegistryKey<Item> registryKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, path));
@@ -59,10 +60,15 @@ public class ModItems {
     public static final RegistryKey<Item> LIUBEIASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "longnudiwei"));
     //注意下一行代码的component是为了给技能添加冷却时间
     public static final Item LIUBEIASKILL = register(new LiuBeiASkill( new Item.Settings().registryKey(LIUBEIASKILL_KEY).component(RtTPSComponents.COOLDOWN_TYPE,LiuBeiASkill.COOLDOWN)), LIUBEIASKILL_KEY);
+    //注册刘备B技能
+    public static final RegistryKey<Item> LIUBEIBSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "xiangxieyvgong"));
+    public static final Item LIUBEIBSKILL = register(new LiuBeiBSkill( new Item.Settings().registryKey(LIUBEIBSKILL_KEY).component(RtTPSComponents.COOLDOWN_TYPE,LiuBeiBSkill.COOLDOWN)), LIUBEIBSKILL_KEY);
+
+
     public static Item register(Item item, RegistryKey<Item> registryKey) {
-    // Register the item.
+        // Register the item.
         Item registeredItem = Registry.register(Registries.ITEM, registryKey.getValue(), item);
-     // Return the registered item!
+        // Return the registered item!
         return registeredItem;
     }
 
@@ -80,6 +86,7 @@ public class ModItems {
             itemGroup.add(ModItems.YINFENGLAIXIANG);
             itemGroup.add(ModItems.TIEJITACHUAN);
             itemGroup.add(ModItems.LIUBEIASKILL);
+            itemGroup.add(ModItems.LIUBEIBSKILL);
         });
     }
     //注册武器
