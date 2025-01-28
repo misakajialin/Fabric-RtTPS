@@ -1,5 +1,6 @@
 package xyz.lisbammisakait.item;
 
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -37,6 +38,11 @@ public class HutouzhanjinqiangItem extends SwordItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("itemskill.relight-the-three-point-strategy.hutouzhanjinqiang",COOLDOWN).formatted(Formatting.GOLD));
+    }
+    //不掉耐久
+    @Override
+    public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        stack.damage(0, attacker, EquipmentSlot.MAINHAND);
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
