@@ -1,4 +1,4 @@
-package xyz.lisbammisakait.Skill;
+package xyz.lisbammisakait.skill;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,4 +17,6 @@ public class TieJiTaChuanSkill extends Item {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("skill.relight-the-three-point-strategy.tiejitachuan").formatted(Formatting.GOLD));
     }
+
+
 }
