@@ -36,5 +36,6 @@ public class ShenweihutouzhanjianjinqiangItem extends HutouzhanjinqiangItem {
     }
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        //tooltip.add(Text.translatable("itemskill.relight-the-three-point-strategy.shenweihutouzhanjinqiang").formatted(Formatting.GOLD));
     }
 }
