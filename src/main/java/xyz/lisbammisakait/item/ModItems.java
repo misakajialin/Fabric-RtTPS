@@ -33,7 +33,7 @@ public class ModItems {
             .displayName(Text.translatable("rttpsGroup.RelightTheThreePointStrategy"))
             .build();
 
-    //    public static final Item FEILONGDUOFENG = register("feilongduofeng", Item::new, new Item.Settings());
+//    public static final Item FEILONGDUOFENG = register("feilongduofeng", Item::new, new Item.Settings());
 //    public static final Item FEILONGDUOFENG = register();
 //    public static Item register(String path, Function<Item.Settings, Item> factory, Item.Settings settings) {
 //        final RegistryKey<Item> registryKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, path));
@@ -66,9 +66,9 @@ public class ModItems {
 
 
     public static Item register(Item item, RegistryKey<Item> registryKey) {
-        // Register the item.
+    // Register the item.
         Item registeredItem = Registry.register(Registries.ITEM, registryKey.getValue(), item);
-        // Return the registered item!
+     // Return the registered item!
         return registeredItem;
     }
 
