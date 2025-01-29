@@ -57,11 +57,10 @@ public class ModItems {
     public static final RegistryKey<Item> TIEJITACHUAN_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "tiejitachuan"));
     public static final Item TIEJITACHUAN = register(new TieJiTaChuanSkill( new Item.Settings().registryKey(TIEJITACHUAN_KEY)), TIEJITACHUAN_KEY);
     //注册刘备A技能
-    public static final RegistryKey<Item> LIUBEIASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "longnudiwei"));
-    //注意下一行代码的component是为了给技能添加冷却时间
+    public static final RegistryKey<Item> LIUBEIASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "xiangxieyvgong"));
     public static final Item LIUBEIASKILL = register(new LiuBeiASkill( new Item.Settings().registryKey(LIUBEIASKILL_KEY).component(RtTPSComponents.COOLDOWN_TYPE,LiuBeiASkill.COOLDOWN)), LIUBEIASKILL_KEY);
     //注册刘备B技能
-    public static final RegistryKey<Item> LIUBEIBSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "xiangxieyvgong"));
+    public static final RegistryKey<Item> LIUBEIBSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "longnudiwei"));
     public static final Item LIUBEIBSKILL = register(new LiuBeiBSkill( new Item.Settings().registryKey(LIUBEIBSKILL_KEY).component(RtTPSComponents.COOLDOWN_TYPE,LiuBeiBSkill.COOLDOWN)), LIUBEIBSKILL_KEY);
 
 
