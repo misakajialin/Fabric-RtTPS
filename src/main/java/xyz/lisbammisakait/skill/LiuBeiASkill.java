@@ -63,6 +63,16 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("skill.relight-the-three-point-strategy.xiangxieyvgong"));
+
+//        for (Component component : originalTooltip) {
+//            String text = component.getString();
+//            // 分割文本，根据 /n 进行换行
+//            String[] lines = text.split("/n");
+//            for (String line : lines) {
+//                modifiedTooltip.add(Component.literal(line));
+//            }
+//        }
+
     }
 //    public List<PlayerEntity> getNearbyPlayers(PlayerEntity player, ServerWorld world,int range) {
 //        Vec3d pos = player.getPos();

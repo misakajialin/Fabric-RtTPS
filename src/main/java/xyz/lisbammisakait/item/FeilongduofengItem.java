@@ -1,15 +1,10 @@
 package xyz.lisbammisakait.item;
 
 
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 import java.util.Random;
 
@@ -21,6 +16,7 @@ public class FeilongduofengItem extends RtTPSSwordItem {
     }
     @Override
     public boolean postHit(net.minecraft.item.ItemStack stack, net.minecraft.entity.LivingEntity target, net.minecraft.entity.LivingEntity attacker) {
+
         Random random = new Random();
         // 生成一个 0 到 9 之间的随机整数
         int randomNumber = random.nextInt(10);

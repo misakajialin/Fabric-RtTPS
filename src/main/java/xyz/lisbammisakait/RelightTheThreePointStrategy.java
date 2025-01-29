@@ -6,6 +6,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
@@ -43,5 +44,6 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 			}
 		});
 		LOGGER.info("Hello Fabric world!");
+
 	}
 }
