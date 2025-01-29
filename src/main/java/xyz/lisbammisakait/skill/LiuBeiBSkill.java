@@ -30,6 +30,7 @@ public class LiuBeiBSkill extends Item implements ActiveSkillable {
         ServerPlayerEntity serverplayer = null;
         if (user != null) {
             serverplayer = client.getServer().getPlayerManager().getPlayer(user.getUuid());
+
         }
         if (user.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回

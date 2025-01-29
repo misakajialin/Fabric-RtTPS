@@ -30,7 +30,7 @@ import java.util.Set;
 
 
 
-public class HutouzhanjinqiangItem extends SwordItem {
+public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     public static final int COOLDOWN = 30;
     public HutouzhanjinqiangItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);

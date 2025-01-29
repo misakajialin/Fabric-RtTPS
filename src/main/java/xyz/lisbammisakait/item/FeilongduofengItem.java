@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class FeilongduofengItem extends SwordItem {
+public class FeilongduofengItem extends RtTPSSwordItem {
     public static final int PROBABILITY = 20;
     public static final int FIRETIME = 2;
     public FeilongduofengItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {

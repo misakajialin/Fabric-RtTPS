@@ -3,13 +3,13 @@
 	"id": "relight-the-three-point-strategy",
 	"version": "${version}",
 	"name": "Relight-The-Three-Point-Strategy",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "重燃三分地图配套mod",
 	"authors": [
 		"LisBam&Misakait"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://misakait.best/",
+		"sources": "https://github.com/misakajialin/Fabric-RtTPS"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/relight-the-three-point-strategy/icon.png",
