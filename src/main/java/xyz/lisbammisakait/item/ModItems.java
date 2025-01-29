@@ -42,6 +42,9 @@ public class ModItems {
     //注册虎头湛金枪
     public static final RegistryKey<Item> HUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "hutouzhanjinqiang"));
     public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 20f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY)), HUTOUZHANJINQIANG_KEY);
+
+    public static final RegistryKey<Item> LEITINGZHIZHANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "leitingzhizhang"));
+    public static final Item LEITINGZHIZHANG = register(new LeitingzhizhangItem(ToolMaterial.GOLD, 4f, 20f, new Item.Settings().registryKey(LEITINGZHIZHANG_KEY)), LEITINGZHIZHANG_KEY);
     //注册神威虎头湛金枪
     public static final RegistryKey<Item> SHENWEIHUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "shenweihutouzhanjinqiang"));
     public static final Item SHENWEIHUTOUZHANJINQIANG = register(new ShenweihutouzhanjianjinqiangItem(ToolMaterial.GOLD, 8f, 20f, new Item.Settings().registryKey(SHENWEIHUTOUZHANJINQIANG_KEY)), SHENWEIHUTOUZHANJINQIANG_KEY);
@@ -97,6 +100,7 @@ public class ModItems {
             itemGroup.add(ModItems.FEILONGDUOFENG);
             itemGroup.add(ModItems.HUTOUZHANJINQIANG);
             itemGroup.add(ModItems.SHENWEIHUTOUZHANJINQIANG);
+            itemGroup.add(ModItems.LEITINGZHIZHANG);
         });
     }
     public static void initialize() {

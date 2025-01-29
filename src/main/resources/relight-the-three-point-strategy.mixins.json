@@ -3,7 +3,8 @@
 	"package": "xyz.lisbammisakait.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"ExampleMixin",
+		"LightningDamageMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
