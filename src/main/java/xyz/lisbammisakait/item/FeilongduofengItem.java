@@ -19,11 +19,6 @@ public class FeilongduofengItem extends RtTPSSwordItem {
     public FeilongduofengItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
-    //不掉耐久
-    @Override
-    public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damage(0, attacker, EquipmentSlot.MAINHAND);
-    }
     @Override
     public boolean postHit(net.minecraft.item.ItemStack stack, net.minecraft.entity.LivingEntity target, net.minecraft.entity.LivingEntity attacker) {
         Random random = new Random();
@@ -33,8 +28,7 @@ public class FeilongduofengItem extends RtTPSSwordItem {
         if (randomNumber<(PROBABILITY/10)) {
             // 给目标添加火焰效果
             target.setFireTicks(FIRETIME*20);
-            double motionX = attacker.getRotationVector().x;
-            double motionZ = attacker.getRotationVector().z;
+
             // 在目标实体位置生成火焰粒子效果
             ServerWorld serverWorld =  target.getServer().getWorld(target.getEntityWorld().getRegistryKey());
             Vec3d pos = target.getPos();
@@ -45,9 +39,12 @@ public class FeilongduofengItem extends RtTPSSwordItem {
                 serverWorld.spawnParticles(ParticleTypes.FLAME, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, 1, 0, 0, 0, 0);
 
             }
+
             // 计算击退强度，这里假设一个简单的强度值
             double knockbackStrength = 1.5;
             // 给目标添加击退效果
+            double motionX = attacker.getRotationVector().x;
+            double motionZ = attacker.getRotationVector().z;
            //target.addVelocity(motionX * knockbackStrength, 0.5, motionZ * knockbackStrength);
             target.takeKnockback(knockbackStrength, -motionX, -motionZ);
         }

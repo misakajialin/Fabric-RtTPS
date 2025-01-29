@@ -4,34 +4,30 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
-import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.tools.SafeTp;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 
 
 public class HutouzhanjinqiangItem extends RtTPSSwordItem {
-    public static final int COOLDOWN = 30;
+    public final int COOLDOWN = 30;
+    // 存储玩家使用技能的时间
+    protected static final Map<PlayerEntity, Long> SKILL_USE_TIME_MAP = new HashMap<>();
+    // 技能持续时间,单位秒
+    protected final int SKILL_DURATION = 10 ;
+
     public HutouzhanjinqiangItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
@@ -39,26 +35,19 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("itemskill.relight-the-three-point-strategy.hutouzhanjinqiang",COOLDOWN).formatted(Formatting.GOLD));
     }
-    //不掉耐久
-    @Override
-    public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damage(0, attacker, EquipmentSlot.MAINHAND);
-    }
+
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         // 计算从攻击者指向被攻击者的方向向量
         Vec3d direction = target.getPos().subtract(attacker.getPos());
         // 对方向向量进行归一化，得到单位方向向量
         Vec3d normalizedDirection = direction.normalize();
-
         // 计算三格的偏移量
         Vec3d offset = normalizedDirection.multiply(3);
-
         // 获取攻击者当前的位置
         Vec3d currentPosition = attacker.getPos();
         // 计算目标位置，即当前位置加上偏移量
         Vec3d targetPosition = currentPosition.add(offset);
-
         // 获取攻击者所在的世界
         ServerWorld world = (ServerWorld) attacker.getWorld();
 
@@ -78,7 +67,18 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
         // 调用 teleport 方法将攻击者传送到目标位置，并设置朝向
 //        attacker.teleport(world, targetPosition.getX(), targetPosition.getY(), targetPosition.getZ(), flags, yaw, pitch, resetCamera);
         SafeTp.safeTp(attacker, world, targetPosition.getX(), targetPosition.getY(), targetPosition.getZ(), flags, yaw, pitch, resetCamera);
-        RelightTheThreePointStrategy.LOGGER.info("攻击者传送到目标位置");
+
+        //击飞敌人
+        long currentTime = world.getTime();
+        RelightTheThreePointStrategy.LOGGER.info("玩家使用攻击的时间：" + currentTime);
+        // 检查玩家是否在技能生效时间内
+        if (SKILL_USE_TIME_MAP.containsKey(attacker) && currentTime - SKILL_USE_TIME_MAP.get(attacker) <= SKILL_DURATION*20) {
+            // 击飞敌人
+            knockup(target, attacker);
+        }else {
+            attacker.getServer().sendMessage(Text.of("技能未生效"));
+        }
+
         return super.postHit(stack, target, attacker);
     }
 //    @Override
@@ -89,6 +89,20 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
 //            tooltip.add(Text.translatable("item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time", rct).formatted(Formatting.GOLD));
 //        }
 //    }
+    public static void recordSkillUseTime(PlayerEntity player, IntegratedServer server) {
+        // 获取当前时间
+        long currentTime = server.getWorld(player.getEntityWorld().getRegistryKey()).getTime();
+        SKILL_USE_TIME_MAP.put(player, currentTime);
+    }
+    protected void knockup(LivingEntity target, LivingEntity attacker) {
+//        Vec3d attackerPos = attacker.getPos();
+//        Vec3d targetPos = target.getPos();
+//        Vec3d knockbackVector = targetPos.subtract(attackerPos).normalize().multiply(0.5);
+//        target.addVelocity(knockbackVector.x, 0.2, knockbackVector.z);
+        target.addVelocity(0, 1, 0);
+        // 设置目标的速度已经被修改
+        target.velocityModified = true;
+    }
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
@@ -104,17 +118,15 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
             return ActionResult.FAIL;
         }
 
-        if (user != null) {
             // 创建一个新的物品栈
             ItemStack newItemStack = new ItemStack(ModItems.SHENWEIHUTOUZHANJINQIANG, 1);
             // 将主手物品更换为新的物品栈
             user.getInventory().main.set(user.getInventory().selectedSlot, newItemStack);
 
-            // 设置物品进入冷却状态
-            user.getItemCooldownManager().set(stack, COOLDOWN * 20); // 注意：冷却时间单位是游戏刻，1 秒 = 20 游戏刻
+            // 设置物品进入冷却状态,注意：冷却时间单位是游戏刻，1 秒 = 20 游戏刻
+            user.getItemCooldownManager().set(stack, COOLDOWN * 20);
 
             return ActionResult.SUCCESS;
-        }
-        return ActionResult.FAIL;
+
     }
 }

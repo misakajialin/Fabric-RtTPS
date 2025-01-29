@@ -18,7 +18,7 @@ public class LiuBeiBSkill extends Item implements ActiveSkillable {
     private final int WITHER_EFFECT_AMPLIFIER = 3;
     private final int STRENGTH_EFFECT_DURATION = 15;
     private final int STRENGTH_EFFECT_AMPLIFIER = 0;
-    public static final int COOLDOWN = 30;
+    private final int COOLDOWN = 30;
 
     public LiuBeiBSkill(Settings settings) {
         super(settings);
