@@ -26,6 +26,7 @@ public class FeilongduofengItem extends RtTPSSwordItem {
             target.setFireTicks(FIRETIME*20);
 
             // 在目标实体位置生成火焰粒子效果
+            //获取服务器世界
             ServerWorld serverWorld =  target.getServer().getWorld(target.getEntityWorld().getRegistryKey());
             Vec3d pos = target.getPos();
             for (int i = 0; i < 10; i++) {

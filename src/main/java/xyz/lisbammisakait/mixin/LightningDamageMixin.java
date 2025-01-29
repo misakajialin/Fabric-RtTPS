@@ -2,6 +2,8 @@ package xyz.lisbammisakait.mixin;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -14,7 +16,7 @@ import xyz.lisbammisakait.item.ModItems;
 import java.util.function.Predicate;
 
 @Mixin(Entity.class)
-public class LightningDamageMixin {
+public abstract class LightningDamageMixin {
     /**
      * 在玩家受到雷电伤害之前检查是否拥有特定物品
      * @param ci 回调信息
@@ -27,6 +29,7 @@ public class LightningDamageMixin {
             // 检查玩家是否拥有特定物品
             if (player.getInventory().contains( ModItems.LEITINGZHIZHANG.getDefaultStack())) {
                 // 取消雷电伤害
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 20,1 ));
                 ci.cancel();
             }
         }
