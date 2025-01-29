@@ -20,7 +20,7 @@ public class ModItems {
     //创建技能物品组
     public static final RegistryKey<ItemGroup> SKILL_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(RelightTheThreePointStrategy.MOD_ID, "skill_group"));
     public static final ItemGroup SKILL_GROUP = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(ModItems.HUTOUZHANJINQIANG))
+            .icon(() -> new ItemStack(ModItems.YINFENGLAIXIANG))
             .displayName(Text.translatable("skillGroup.RelightTheThreePointStrategy"))
             .build();
     //创建武器物品组
@@ -42,9 +42,9 @@ public class ModItems {
     //注册虎头湛金枪
     public static final RegistryKey<Item> HUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "hutouzhanjinqiang"));
     public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 20f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY)), HUTOUZHANJINQIANG_KEY);
-
+    //注册雷霆之杖
     public static final RegistryKey<Item> LEITINGZHIZHANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "leitingzhizhang"));
-    public static final Item LEITINGZHIZHANG = register(new LeitingzhizhangItem(ToolMaterial.GOLD, 4f, 20f, new Item.Settings().registryKey(LEITINGZHIZHANG_KEY)), LEITINGZHIZHANG_KEY);
+    public static final Item LEITINGZHIZHANG = register(new LeitingzhizhangItem(ToolMaterial.GOLD, 4f, 20f, new Item.Settings().registryKey(LEITINGZHIZHANG_KEY).component(RtTPSComponents.HITNUMBER_TYPE,0)), LEITINGZHIZHANG_KEY);
     //注册神威虎头湛金枪
     public static final RegistryKey<Item> SHENWEIHUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "shenweihutouzhanjinqiang"));
     public static final Item SHENWEIHUTOUZHANJINQIANG = register(new ShenweihutouzhanjianjinqiangItem(ToolMaterial.GOLD, 8f, 20f, new Item.Settings().registryKey(SHENWEIHUTOUZHANJINQIANG_KEY)), SHENWEIHUTOUZHANJINQIANG_KEY);
@@ -66,7 +66,9 @@ public class ModItems {
     //注册马超A技能
     public static final RegistryKey<Item> HORSESUPERASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "horsesuperaskill"));
     public static final Item HORSESUPERASKILL = register(new HorseSuperASkill( new Item.Settings().registryKey(HORSESUPERASKILL_KEY).component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)), HORSESUPERASKILL_KEY);
-
+    //
+    public static final RegistryKey<Item> ZHANGJIAOASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "zhangjiaoaskill"));
+    public static final Item ZHANGJIAOASKILL = register(new ZhangJiaoASKill( new Item.Settings().registryKey(ZHANGJIAOASKILL_KEY)), ZHANGJIAOASKILL_KEY);
 
     public static Item register(Item item, RegistryKey<Item> registryKey) {
     // Register the item.
@@ -91,6 +93,7 @@ public class ModItems {
             itemGroup.add(ModItems.LIUBEIASKILL);
             itemGroup.add(ModItems.LIUBEIBSKILL);
             itemGroup.add(ModItems.HORSESUPERASKILL);
+            itemGroup.add(ModItems.ZHANGJIAOASKILL);
         });
     }
     //注册武器
