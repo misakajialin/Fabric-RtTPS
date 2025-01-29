@@ -4,7 +4,8 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"ExampleMixin",
-		"LightningDamageMixin"
+		"LightningDamageMixin",
+		"ItemCooldownManagerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

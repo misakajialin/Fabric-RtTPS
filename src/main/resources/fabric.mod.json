@@ -39,5 +39,11 @@
 	},
 	"suggests": {
 		"another-mod": "*"
+	},
+	"accessWidener" : "rttps.accesswidener",
+	"custom": {
+		"loom:injected_interfaces": {
+			"net/minecraft/class_1796": ["xyz/lisbammisakait/mixininterface/RemainingCooldownGetter"]
+		}
 	}
 }

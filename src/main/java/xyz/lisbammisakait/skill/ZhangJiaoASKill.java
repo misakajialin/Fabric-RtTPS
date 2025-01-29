@@ -14,6 +14,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import oshi.annotation.SuppressForbidden;
+import xyz.lisbammisakait.RelightTheThreePointStrategy;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
     @Override
     public void castSkill(MinecraftClient client, ItemStack stack) {
         ClientPlayerEntity user = client.player;
+        //忽略他,这一句是我向ItemCooldownManager类中使用mixin加入的方法,ide不知道
+        int cdr = user.getItemCooldownManager().getRemainingCooldown(stack);
+        RelightTheThreePointStrategy.LOGGER.info("剩余冷却时间："+cdr);
         if (user.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
             user.sendMessage(Text.of("技能冷却中"), true);
@@ -43,6 +48,7 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
                 serverWorld.spawnEntity(lightningBolt);
             }
         }
+
         // 设置物品冷却时间
         user.getItemCooldownManager().set(stack, COOLDOWN * 20);
     }
