@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.item.ModItems;
 
 public class RelightTheThreePointStrategy implements ModInitializer {
@@ -24,7 +25,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		ModItems.initialize();
-
+		RtTPSComponents.initialize();
 		// 注册服务器tick事件
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			for (PlayerEntity player : server.getPlayerManager().getPlayerList()) {

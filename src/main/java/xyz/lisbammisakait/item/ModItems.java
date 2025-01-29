@@ -12,10 +12,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import xyz.lisbammisakait.skill.LiuBeiASkill;
-import xyz.lisbammisakait.skill.TieJiTaChuanSkill;
+import xyz.lisbammisakait.skill.*;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
-import xyz.lisbammisakait.skill.YinFengLaiXiangSkill;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 
 public class ModItems {
@@ -43,7 +41,7 @@ public class ModItems {
     public static final Item FEILONGDUOFENG = register(new FeilongduofengItem(ToolMaterial.GOLD, 4f, 20f, new Item.Settings().registryKey(FEILONGDUOFENG_KEY)), FEILONGDUOFENG_KEY);
     //注册虎头湛金枪
     public static final RegistryKey<Item> HUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "hutouzhanjinqiang"));
-    public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 20f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY).component(RtTPSComponents.COOLDOWN_TYPE,HutouzhanjinqiangItem.COOLDOWN)), HUTOUZHANJINQIANG_KEY);
+    public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 20f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY)), HUTOUZHANJINQIANG_KEY);
     //注册神威虎头湛金枪
     public static final RegistryKey<Item> SHENWEIHUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "shenweihutouzhanjinqiang"));
     public static final Item SHENWEIHUTOUZHANJINQIANG = register(new ShenweihutouzhanjianjinqiangItem(ToolMaterial.GOLD, 8f, 20f, new Item.Settings().registryKey(SHENWEIHUTOUZHANJINQIANG_KEY)), SHENWEIHUTOUZHANJINQIANG_KEY);
@@ -56,9 +54,17 @@ public class ModItems {
     public static final RegistryKey<Item> TIEJITACHUAN_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "tiejitachuan"));
     public static final Item TIEJITACHUAN = register(new TieJiTaChuanSkill( new Item.Settings().registryKey(TIEJITACHUAN_KEY)), TIEJITACHUAN_KEY);
     //注册刘备A技能
-    public static final RegistryKey<Item> LIUBEIASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "longnudiwei"));
-    //注意下一行代码的component是为了给技能添加冷却时间
-    public static final Item LIUBEIASKILL = register(new LiuBeiASkill( new Item.Settings().registryKey(LIUBEIASKILL_KEY).component(RtTPSComponents.COOLDOWN_TYPE,LiuBeiASkill.COOLDOWN)), LIUBEIASKILL_KEY);
+    public static final RegistryKey<Item> LIUBEIASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "xiangxieyvgong"));
+    public static final Item LIUBEIASKILL = register(new LiuBeiASkill( new Item.Settings().registryKey(LIUBEIASKILL_KEY)), LIUBEIASKILL_KEY);
+    //注册刘备B技能
+    public static final RegistryKey<Item> LIUBEIBSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "longnudiwei"));
+//    public static final Item LIUBEIBSKILL = register(new LiuBeiBSkill( new Item.Settings().registryKey(LIUBEIBSKILL_KEY).component(RtTPSComponents.COOLDOWN_TYPE,LiuBeiBSkill.COOLDOWN)), LIUBEIBSKILL_KEY);
+    public static final Item LIUBEIBSKILL = register(new LiuBeiBSkill( new Item.Settings().registryKey(LIUBEIBSKILL_KEY)), LIUBEIBSKILL_KEY);
+    //注册马超A技能
+    public static final RegistryKey<Item> HORSESUPERASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "horsesuperaskill"));
+    public static final Item HORSESUPERASKILL = register(new HorseSuperASkill( new Item.Settings().registryKey(HORSESUPERASKILL_KEY).component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)), HORSESUPERASKILL_KEY);
+
+
     public static Item register(Item item, RegistryKey<Item> registryKey) {
     // Register the item.
         Item registeredItem = Registry.register(Registries.ITEM, registryKey.getValue(), item);
@@ -80,6 +86,8 @@ public class ModItems {
             itemGroup.add(ModItems.YINFENGLAIXIANG);
             itemGroup.add(ModItems.TIEJITACHUAN);
             itemGroup.add(ModItems.LIUBEIASKILL);
+            itemGroup.add(ModItems.LIUBEIBSKILL);
+            itemGroup.add(ModItems.HORSESUPERASKILL);
         });
     }
     //注册武器
