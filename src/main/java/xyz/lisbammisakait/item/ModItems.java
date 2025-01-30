@@ -70,9 +70,9 @@ public class ModItems {
     //注册马超A技能
     public static final RegistryKey<Item> HORSESUPERASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "horsesuperaskill"));
     public static final Item HORSESUPERASKILL = register(new HorseSuperASkill( new Item.Settings().registryKey(HORSESUPERASKILL_KEY).component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)), HORSESUPERASKILL_KEY);
-    //
+    //注册张角A技能
     public static final RegistryKey<Item> ZHANGJIAOASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "zhangjiaoaskill"));
-    public static final Item ZHANGJIAOASKILL = register(new ZhangJiaoASKill( new Item.Settings().registryKey(ZHANGJIAOASKILL_KEY)), ZHANGJIAOASKILL_KEY);
+    public static final Item ZHANGJIAOASKILL = register(new ZhangJiaoASKill( new Item.Settings().registryKey(ZHANGJIAOASKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), ZHANGJIAOASKILL_KEY);
 
     public static Item register(Item item, RegistryKey<Item> registryKey) {
     // Register the item.

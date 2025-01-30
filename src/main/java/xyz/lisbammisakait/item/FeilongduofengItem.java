@@ -1,11 +1,17 @@
 package xyz.lisbammisakait.item;
 
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
+import xyz.lisbammisakait.RelightTheThreePointStrategy;
 
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.util.Random;
 
 public class FeilongduofengItem extends RtTPSSwordItem {
@@ -15,7 +21,9 @@ public class FeilongduofengItem extends RtTPSSwordItem {
         super(material, attackDamage, attackSpeed, settings);
     }
     @Override
-    public boolean postHit(net.minecraft.item.ItemStack stack, net.minecraft.entity.LivingEntity target, net.minecraft.entity.LivingEntity attacker) {
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        PlayerEntity player = (PlayerEntity) attacker;
+//        RelightTheThreePointStrategy.LOGGER.info(String.valueOf(player.respawnCount));
 
         Random random = new Random();
         // 生成一个 0 到 9 之间的随机整数
