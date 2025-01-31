@@ -1,15 +1,19 @@
 package xyz.lisbammisakait;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.slf4j.Logger;
@@ -18,6 +22,12 @@ import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.item.ModItems;
 import xyz.lisbammisakait.network.packet.SkillSlotPayload;
 import xyz.lisbammisakait.skill.ActiveSkillable;
+
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
+import java.util.Collection;
+
+import static net.minecraft.server.command.CommandManager.*;
 
 public class RelightTheThreePointStrategy implements ModInitializer {
 	public static final String MOD_ID = "relight-the-three-point-strategy";
@@ -34,6 +44,24 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		// Proceed with mild caution.
 		ModItems.initialize();
 		RtTPSComponents.initialize();
+		// 注册获取剩余复活次数的命令
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("getrsc")
+				.then(argument("target", EntityArgumentType.player())
+						.executes(context -> {
+							ServerPlayerEntity player =  EntityArgumentType.getPlayer(context,"target");
+							int rsc;
+                   	 	try {
+                        	VarHandle playerHandle = MethodHandles.lookup().findVarHandle(PlayerEntity.class, "respawnCount", int.class);
+                        	rsc = (int) playerHandle.get(player);
+                    	} catch (NoSuchFieldException e) {
+                        	throw new RuntimeException(e);
+                    	} catch (IllegalAccessException e) {
+							throw new RuntimeException(e);
+                    	}
+							context.getSource().sendFeedback(() -> Text.literal("剩余复活次数: %s".formatted(rsc)), false);
+							return rsc;
+						}))));
+
 		// 注册服务器tick事件
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			for (PlayerEntity player : server.getPlayerManager().getPlayerList()) {
