@@ -50,7 +50,7 @@ public class ModItems {
     public static final Item SHENWEIHUTOUZHANJINQIANG = register(new ShenweihutouzhanjianjinqiangItem(ToolMaterial.GOLD, 8f, 20f, new Item.Settings().registryKey(SHENWEIHUTOUZHANJINQIANG_KEY)), SHENWEIHUTOUZHANJINQIANG_KEY);
     //注册沧海屠龙斧
     public static final RegistryKey<Item> CANGHAITULONGFU_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "canghaitulongfu"));
-    public static final Item CANGHAITULONGFU = register(new CanghaitulongfuItem(ToolMaterial.GOLD, 10f, -3f, new Item.Settings().registryKey(CANGHAITULONGFU_KEY)), CANGHAITULONGFU_KEY);
+    public static final Item CANGHAITULONGFU = register(new CanghaitulongfuItem(ToolMaterial.GOLD, 10f, -3f, new Item.Settings().registryKey(CANGHAITULONGFU_KEY).component(RtTPSComponents.HITNUMBER_TYPE,0)), CANGHAITULONGFU_KEY);
 
     //-----------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------
