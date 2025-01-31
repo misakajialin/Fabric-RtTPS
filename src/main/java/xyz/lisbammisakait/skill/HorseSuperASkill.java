@@ -1,8 +1,9 @@
 package xyz.lisbammisakait.skill;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.item.HutouzhanjinqiangItem;
@@ -13,13 +14,13 @@ public class HorseSuperASkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftClient client, ItemStack stack) {
+    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
         boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
         if (isExhausted) {
-            client.player.sendMessage(Text.of("你已经使用过该技能"), true);
+            player.sendMessage(Text.of("你已经使用过该技能"), true);
             return;
         }
-        HutouzhanjinqiangItem.recordSkillUseTime(client.player, client.getServer());
+        HutouzhanjinqiangItem.recordSkillUseTime(player, server);
         stack.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, true);
 
     }

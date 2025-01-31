@@ -49,10 +49,10 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
             // 生成一个 0 到 9 之间的随机整数
             int randomNumber = random.nextInt(10);
 
-            if (randomNumber<(PROBABILITY/10)) {}
-            ZhangJiaoASKill skill = (ZhangJiaoASKill) skillstack.getItem();
-            skill.spawnLightningBolt(attacker.getServer(),stack, (ServerPlayerEntity) player);
-
+            if (randomNumber<(PROBABILITY/10)) {
+                ZhangJiaoASKill skill = (ZhangJiaoASKill) skillstack.getItem();
+                skill.spawnLightningBolt(attacker.getServer(),stack, (ServerPlayerEntity) player);
+            }
         }
         return super.postHit(stack, target, attacker);
     }

@@ -1,12 +1,11 @@
 package xyz.lisbammisakait.skill;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
@@ -25,21 +24,15 @@ public class LiuBeiBSkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftClient client, ItemStack stack) {
-        ClientPlayerEntity user = client.player;
-        ServerPlayerEntity serverplayer = null;
-        if (user != null) {
-            serverplayer = client.getServer().getPlayerManager().getPlayer(user.getUuid());
-
-        }
-        if (user.getItemCooldownManager().isCoolingDown(stack)) {
+    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
+        if (player.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
             return;
         }
         RelightTheThreePointStrategy.LOGGER.info("给自己添加凋零与力量效果");
-        serverplayer.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, WITHER_EFFECT_DURATION * 20, WITHER_EFFECT_AMPLIFIER));
-        serverplayer.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, STRENGTH_EFFECT_DURATION * 20, STRENGTH_EFFECT_AMPLIFIER));
-        user.getItemCooldownManager().set(stack, COOLDOWN * 20);
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, WITHER_EFFECT_DURATION * 20, WITHER_EFFECT_AMPLIFIER));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, STRENGTH_EFFECT_DURATION * 20, STRENGTH_EFFECT_AMPLIFIER));
+        player.getItemCooldownManager().set(stack, COOLDOWN * 20);
     }
 
     @Override

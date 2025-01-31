@@ -5,13 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.Vec3d;
-import xyz.lisbammisakait.RelightTheThreePointStrategy;
 
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.VarHandle;
 import java.util.Random;
 
 public class FeilongduofengItem extends RtTPSSwordItem {
@@ -35,15 +29,15 @@ public class FeilongduofengItem extends RtTPSSwordItem {
 
             // 在目标实体位置生成火焰粒子效果
             //获取服务器世界
-            ServerWorld serverWorld =  target.getServer().getWorld(target.getEntityWorld().getRegistryKey());
-            Vec3d pos = target.getPos();
-            for (int i = 0; i < 10; i++) {
-                double offsetX = (Math.random() - 0.5) * 2;
-                double offsetY = (Math.random() - 0.5) * 2;
-                double offsetZ = (Math.random() - 0.5) * 2;
-                serverWorld.spawnParticles(ParticleTypes.FLAME, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, 1, 0, 0, 0, 0);
-
-            }
+//            ServerWorld serverWorld =  target.getServer().getWorld(target.getEntityWorld().getRegistryKey());
+//            Vec3d pos = target.getPos();
+//            for (int i = 0; i < 10; i++) {
+//                double offsetX = (Math.random() - 0.5) * 2;
+//                double offsetY = (Math.random() - 0.5) * 2;
+//                double offsetZ = (Math.random() - 0.5) * 2;
+//                serverWorld.spawnParticles(ParticleTypes.FLAME, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, 1, 0, 0, 0, 0);
+//
+//            }
 
             // 计算击退强度，这里假设一个简单的强度值
             double knockbackStrength = 1.5;

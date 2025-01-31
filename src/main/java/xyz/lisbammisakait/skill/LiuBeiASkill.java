@@ -11,12 +11,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
-import xyz.lisbammisakait.network.packet.LiuBeiASkillPayload;
 import xyz.lisbammisakait.tools.EntityFinder;
 
 import java.util.List;
@@ -34,34 +35,32 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftClient client, ItemStack stack) {
-        ClientPlayerEntity user = client.player;
-        if (user.getItemCooldownManager().isCoolingDown(stack)) {
+    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
+        if (player.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
-            user.sendMessage(Text.of("技能冷却中"), false);
+            player.sendMessage(Text.of("技能冷却中"), false);
             return ;
         }
 
 //        ServerWorld serverWorld =  client.getServer().getWorld(user.getEntityWorld().getRegistryKey());
         //回血
-        float currentHealth = user.getHealth();
-        float maxHealth = user.getMaxHealth();
+        float currentHealth = player.getHealth();
+        float maxHealth = player.getMaxHealth();
         if (currentHealth < maxHealth) {
-            user.setHealth(Math.min(currentHealth + RECOVERHEALTH, maxHealth));
+            player.setHealth(Math.min(currentHealth + RECOVERHEALTH, maxHealth));
         }
         RelightTheThreePointStrategy.LOGGER.info("给自己添加生命回复效果");
-        ClientPlayNetworking.send(new LiuBeiASkillPayload(RANGE));
-//        EntityFinder entityFinder = new EntityFinder();
-//        List<LivingEntity> nearbyEntities = entityFinder.getNearbyEntities(user, serverWorld, RANGE,LivingEntity.class);
-//        for (LivingEntity nearbyEntity : nearbyEntities) {
-//          if (!nearbyEntity.equals(user)) {
-//                // 给范围内的其他生物添加生命回复效果
-//                RelightTheThreePointStrategy.LOGGER.info("给生物添加生命回复效果");
-//                nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, EFFECT_DURATION*20, EFFECT_AMPLIFIER));
-//           }
-//        }
+//        ClientPlayNetworking.send(new LiuBeiASkillPayload(RANGE));
+        EntityFinder entityFinder = new EntityFinder();
+        List<LivingEntity> nearbyEntities = entityFinder.getNearbyEntities(player,server.getWorld(player.getWorld().getRegistryKey()),RANGE,LivingEntity.class);
+        for (LivingEntity nearbyEntity : nearbyEntities) {
+            if (!nearbyEntity.equals(player)) {
+                // 给范围内的其他生物添加生命回复效果
+                nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, LiuBeiASkill.EFFECT_DURATION * 20, LiuBeiASkill.EFFECT_AMPLIFIER));
+            }
+        }
         // 设置物品冷却时间
-        user.getItemCooldownManager().set(stack, COOLDOWN * 20);
+        player.getItemCooldownManager().set(stack, COOLDOWN * 20);
 
     }
     @Override

@@ -4,21 +4,20 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.item.ModItems;
-import xyz.lisbammisakait.network.packet.LiuBeiASkillPayload;
-import xyz.lisbammisakait.skill.LiuBeiASkill;
-import xyz.lisbammisakait.tools.EntityFinder;
-
-import java.util.List;
+import xyz.lisbammisakait.network.packet.SkillSlotPayload;
+import xyz.lisbammisakait.skill.ActiveSkillable;
 
 public class RelightTheThreePointStrategy implements ModInitializer {
 	public static final String MOD_ID = "relight-the-three-point-strategy";
@@ -51,21 +50,41 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 				}
 			}
 		});
-		PayloadTypeRegistry.playC2S().register(LiuBeiASkillPayload.ID, LiuBeiASkillPayload.CODEC);
-        ServerPlayNetworking.registerGlobalReceiver(LiuBeiASkillPayload.ID, (payload, context) -> {
-            context.server().execute(() -> {
-				EntityFinder entityFinder = new EntityFinder();
-				List<LivingEntity> nearbyEntities = entityFinder.getNearbyEntities(context.player(), context.server().getWorld(context.player().getEntityWorld().getRegistryKey()),payload.range(),LivingEntity.class);
-				for (LivingEntity nearbyEntity : nearbyEntities) {
-					if (!nearbyEntity.equals(context.player())) {
-						// 给范围内的其他生物添加生命回复效果
-						nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, LiuBeiASkill.EFFECT_DURATION*20, LiuBeiASkill.EFFECT_AMPLIFIER));
-					}
-				}
-            });
-        });
+		// 注册发动刘备技能的数据包
+//		PayloadTypeRegistry.playC2S().register(LiuBeiASkillPayload.ID, LiuBeiASkillPayload.CODEC);
+//        ServerPlayNetworking.registerGlobalReceiver(LiuBeiASkillPayload.ID, (payload, context) -> {
+//            context.server().execute(() -> {
+//				EntityFinder entityFinder = new EntityFinder();
+//				List<LivingEntity> nearbyEntities = entityFinder.getNearbyEntities(context.player(), context.server().getWorld(context.player().getEntityWorld().getRegistryKey()),payload.range(),LivingEntity.class);
+//				for (LivingEntity nearbyEntity : nearbyEntities) {
+//					if (!nearbyEntity.equals(context.player())) {
+//						// 给范围内的其他生物添加生命回复效果
+//						nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, LiuBeiASkill.EFFECT_DURATION*20, LiuBeiASkill.EFFECT_AMPLIFIER));
+//					}
+//				}
+//            });
+//        });
+		// 注册发动技能的数据包
+		PayloadTypeRegistry.playC2S().register(SkillSlotPayload.ID, SkillSlotPayload.CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(SkillSlotPayload.ID, (payload, context) -> {
+			context.server().execute(() -> {
+				context.player().sendMessage(Text.of("使用技能"), true);
+				useSkill(context.server(),context.player(), payload.slot());
+			});
+		});
 
 		LOGGER.info("Hello Fabric world!");
 
+	}
+	private void useSkill(MinecraftServer server, ServerPlayerEntity player, int slot) {
+		PlayerInventory inventory = player.getInventory();
+		ItemStack skillStack = inventory.getStack(slot);
+		//
+		if (skillStack.isEmpty()||!(skillStack.getItem() instanceof ActiveSkillable)) {
+			RelightTheThreePointStrategy.LOGGER.info("并非技能物品");
+			return;
+		}
+		ActiveSkillable skill = (ActiveSkillable) skillStack.getItem();
+		skill.castSkill(server,player,skillStack);
 	}
 }
