@@ -1,17 +1,17 @@
 package xyz.lisbammisakait.item;
 
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -34,6 +34,7 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("itemskill.relight-the-three-point-strategy.hutouzhanjinqiang",COOLDOWN).formatted(Formatting.GOLD));
+
     }
 
     @Override
@@ -49,6 +50,7 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
         // 计算目标位置，即当前位置加上偏移量
         Vec3d targetPosition = currentPosition.add(offset);
         // 获取攻击者所在的世界
+
         ServerWorld world = (ServerWorld) attacker.getWorld();
 
         // 这里简单使用空的标志集合，你可以根据需求修改
@@ -89,7 +91,7 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
 //            tooltip.add(Text.translatable("item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time", rct).formatted(Formatting.GOLD));
 //        }
 //    }
-    public static void recordSkillUseTime(PlayerEntity player, IntegratedServer server) {
+    public static void recordSkillUseTime(PlayerEntity player, MinecraftServer server) {
         // 获取当前时间
         long currentTime = server.getWorld(player.getEntityWorld().getRegistryKey()).getTime();
         SKILL_USE_TIME_MAP.put(player, currentTime);
