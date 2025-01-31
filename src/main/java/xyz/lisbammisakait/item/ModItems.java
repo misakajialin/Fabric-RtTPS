@@ -73,6 +73,15 @@ public class ModItems {
     //注册张角A技能
     public static final RegistryKey<Item> ZHANGJIAOASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "zhangjiaoaskill"));
     public static final Item ZHANGJIAOASKILL = register(new ZhangJiaoASKill( new Item.Settings().registryKey(ZHANGJIAOASKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), ZHANGJIAOASKILL_KEY);
+    //注册曹操B技能
+    public static final RegistryKey<Item> CAOCAOBSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaobskill"));
+    public static final Item CAOCAOBSKILL = register(new CaoCaoBSkill( new Item.Settings().registryKey(CAOCAOBSKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), CAOCAOBSKILL_KEY);
+    //注册曹操P技能
+    public static final RegistryKey<Item> CAOCAOPSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaopskill"));
+    public static final Item CAOCAOPSKILL = register(new CaoCaoPSkill( new Item.Settings().registryKey(CAOCAOPSKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), CAOCAOPSKILL_KEY);
+    //注册不可发动
+    public static final RegistryKey<Item> UNLAUNCHABLE_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "unlaunchable"));
+    public static final Item UNLAUNCHABLE = register(new UnLaunchable( new Item.Settings().registryKey(UNLAUNCHABLE_KEY)), UNLAUNCHABLE_KEY);
 
     public static Item register(Item item, RegistryKey<Item> registryKey) {
     // Register the item.
@@ -98,6 +107,9 @@ public class ModItems {
             itemGroup.add(ModItems.LIUBEIBSKILL);
             itemGroup.add(ModItems.HORSESUPERASKILL);
             itemGroup.add(ModItems.ZHANGJIAOASKILL);
+            itemGroup.add(ModItems.CAOCAOBSKILL);
+            itemGroup.add(ModItems.CAOCAOPSKILL);
+            itemGroup.add(ModItems.UNLAUNCHABLE);
         });
     }
     //注册武器

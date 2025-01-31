@@ -23,20 +23,18 @@ public class CanghaitulongfuItem extends  RtTPSSwordItem {
     public boolean postHit(net.minecraft.item.ItemStack stack, net.minecraft.entity.LivingEntity target, net.minecraft.entity.LivingEntity attacker) {
         PlayerEntity player =(PlayerEntity)attacker;
         stack.set(RtTPSComponents.HITNUMBER_TYPE,stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE,0)+1);
-        RelightTheThreePointStrategy.LOGGER.info("攻击");
         //int hitnum=(int)stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0);
         //sendAttackMessage(hitnum);
         if (player != null) {
             player.sendMessage(Text.of("攻击次数: " + stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE,0)), true);
         }
         if(stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0) >= HITNUMBER){
-            RelightTheThreePointStrategy.LOGGER.info("已经达到5次");
             //设置使用次数为0
             stack.set(RtTPSComponents.HITNUMBER_TYPE,0);
             // 创建一个新的物品栈
-            ItemStack newItemStack = new ItemStack(ModItems.SHENWEIHUTOUZHANJINQIANG, 1);
+            ItemStack newItemStack = new ItemStack(ModItems.CAOCAOBSKILL, 1);
             // 将技能B位置更换为新的物品栈
-            player.getInventory().main.set(8, newItemStack);
+            player.getInventory().main.set(7, newItemStack);
             }
         return super.postHit(stack, target, attacker);
     }
