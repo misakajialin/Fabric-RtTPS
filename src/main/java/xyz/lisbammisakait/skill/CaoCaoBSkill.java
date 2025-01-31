@@ -17,7 +17,7 @@ public class CaoCaoBSkill extends Item implements ActiveSkillable {
     private final int SPEED_EFFECT_DURATION = 3;
     private final int ABSORPTION_EFFECT_DURATION = 3;
     private final int SPEED_EFFECT_AMPLIFIER = 2;
-    private final int ABSORPTION_EFFECT_AMPLIFIER = 3;
+    private final int ABSORPTION_EFFECT_AMPLIFIER = 1;
 
     public CaoCaoBSkill(Settings settings) {
         super(settings);
