@@ -25,7 +25,7 @@ import java.util.List;
 public class LiuBeiASkill extends Item implements ActiveSkillable {
     public static final int EFFECT_DURATION = 10;
     public static final int  EFFECT_AMPLIFIER = 1;
-    private final int RECOVERHEALTH = 5;
+    private final int RECOVERHEALTH = 10;
     private final int RANGE = 5;
 
     private final int COOLDOWN = 40;

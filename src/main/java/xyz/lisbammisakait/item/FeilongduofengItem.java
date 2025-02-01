@@ -9,7 +9,7 @@ import net.minecraft.item.ToolMaterial;
 import java.util.Random;
 
 public class FeilongduofengItem extends RtTPSSwordItem {
-    public static final int PROBABILITY = 20;
+    public static final int PROBABILITY = 30;
     public static final int FIRETIME = 2;
     public FeilongduofengItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
