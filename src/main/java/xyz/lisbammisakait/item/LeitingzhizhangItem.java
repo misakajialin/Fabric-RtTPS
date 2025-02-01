@@ -1,6 +1,8 @@
 package xyz.lisbammisakait.item;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -30,7 +32,7 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
             //设置使用次数为0
             stack.set(RtTPSComponents.HITNUMBER_TYPE,0);
             //给攻击者添加速度效果
-            //attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_DURATION*20, SPEED_AMPLIFIER));
+            attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_DURATION*20, SPEED_AMPLIFIER));
 
             PlayerEntity player = (PlayerEntity) attacker;
             ItemStack skillstack = player.getInventory().getStack(7);

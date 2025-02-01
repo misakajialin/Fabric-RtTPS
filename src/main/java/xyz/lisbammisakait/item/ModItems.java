@@ -36,6 +36,8 @@ public class ModItems {
 //        final RegistryKey<Item> registryKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, path));
 //        return Items.register(registryKey, factory, settings);
 //    }
+    public static final RegistryKey<Item> MARK_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "mark"));
+    public static final Item MARK = register(new MarkItem(new Item.Settings().registryKey(MARK_KEY).component(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE,5)), MARK_KEY);
     //注册飞龙夺凤
     public static final RegistryKey<Item> FEILONGDUOFENG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "feilongduofeng"));
     public static final Item FEILONGDUOFENG = register(new FeilongduofengItem(ToolMaterial.GOLD, 4f, 20f, new Item.Settings().registryKey(FEILONGDUOFENG_KEY)), FEILONGDUOFENG_KEY);
@@ -110,6 +112,7 @@ public class ModItems {
             itemGroup.add(ModItems.CAOCAOBSKILL);
             itemGroup.add(ModItems.CAOCAOPSKILL);
             itemGroup.add(ModItems.UNLAUNCHABLE);
+            itemGroup.add(ModItems.MARK);
         });
     }
     //注册武器

@@ -29,4 +29,9 @@ public class RtTPSComponents {
             Identifier.of(RelightTheThreePointStrategy.MOD_ID, "usenumber"),
             ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
+    public static final ComponentType<Integer> REMAININGRESPAWNCOUNT_TYPE = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Identifier.of(RelightTheThreePointStrategy.MOD_ID, "remainingrespawncount"),
+            ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
 }

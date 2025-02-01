@@ -17,6 +17,8 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.util.List;
 
+import static xyz.lisbammisakait.compoennt.RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE;
+
 public class ZhangJiaoASKill extends Item implements ActiveSkillable {
     private final int COOLDOWN = 40;
     public final int SPNUMBER = 8 ;
@@ -56,16 +58,17 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
             }
         }
         stack.set(RtTPSComponents.USENUMBER_TYPE,stack.getOrDefault(RtTPSComponents.USENUMBER_TYPE,0)+1);
-        //当发动次数达到次数
+        //当发动次数达到次数,增加玩家复活次数
         if(stack.getOrDefault(RtTPSComponents.USENUMBER_TYPE,0)==SPNUMBER){
             stack.set(RtTPSComponents.USENUMBER_TYPE,0);
-            try {
-                //增加玩家的复活次数
-                VarHandle playerHandle = MethodHandles.lookup().findVarHandle(PlayerEntity.class, "respawnCount", int.class);
-                playerHandle.set(serverplayer,(int)playerHandle.get(serverplayer)+1);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            stack.set(REMAININGRESPAWNCOUNT_TYPE,stack.getOrDefault(REMAININGRESPAWNCOUNT_TYPE,0)+1);
+//            try {
+//                增加玩家的复活次数
+//                VarHandle playerHandle = MethodHandles.lookup().findVarHandle(PlayerEntity.class, "respawnCount", int.class);
+//                playerHandle.set(serverplayer,(int)playerHandle.get(serverplayer)+1);
+//            } catch (NoSuchFieldException | IllegalAccessException e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
 }
