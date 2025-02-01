@@ -81,6 +81,10 @@ public class ModItems {
     //注册曹操P技能
     public static final RegistryKey<Item> CAOCAOPSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaopskill"));
     public static final Item CAOCAOPSKILL = register(new CaoCaoPSkill( new Item.Settings().registryKey(CAOCAOPSKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), CAOCAOPSKILL_KEY);
+    //注册曹操A技能
+    public static final RegistryKey<Item> CAOCAOASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaoaskill"));
+    public static final Item CAOCAOASKILL = register(new CaoCaoASkill( new Item.Settings().registryKey(CAOCAOASKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), CAOCAOASKILL_KEY);
+
     //注册不可发动
     public static final RegistryKey<Item> UNLAUNCHABLE_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "unlaunchable"));
     public static final Item UNLAUNCHABLE = register(new UnLaunchable( new Item.Settings().registryKey(UNLAUNCHABLE_KEY)), UNLAUNCHABLE_KEY);
@@ -111,6 +115,7 @@ public class ModItems {
             itemGroup.add(ModItems.ZHANGJIAOASKILL);
             itemGroup.add(ModItems.CAOCAOBSKILL);
             itemGroup.add(ModItems.CAOCAOPSKILL);
+            itemGroup.add(ModItems.CAOCAOASKILL);
             itemGroup.add(ModItems.UNLAUNCHABLE);
             itemGroup.add(ModItems.MARK);
         });

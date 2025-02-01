@@ -49,7 +49,7 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
         if (currentHealth < maxHealth) {
             player.setHealth(Math.min(currentHealth + RECOVERHEALTH, maxHealth));
         }
-        RelightTheThreePointStrategy.LOGGER.info("给自己添加生命回复效果");
+        RelightTheThreePointStrategy.LOGGER.info("给自己添加瞬间指令效果");
 //        ClientPlayNetworking.send(new LiuBeiASkillPayload(RANGE));
         EntityFinder entityFinder = new EntityFinder();
         List<LivingEntity> nearbyEntities = entityFinder.getNearbyEntities(player,server.getWorld(player.getWorld().getRegistryKey()),RANGE,LivingEntity.class);

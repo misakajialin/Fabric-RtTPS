@@ -13,8 +13,7 @@ import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 
 public class CanghaitulongfuItem extends  RtTPSSwordItem {
-    public static final int HITNUMBER = 5
-            ;
+    public static final int HITNUMBER = 5;
     //MinecraftClient client = MinecraftClient.getInstance();
     public CanghaitulongfuItem(ToolMaterial material, float attackDamage, float attackSpeed, Item.Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
