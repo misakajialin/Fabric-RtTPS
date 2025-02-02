@@ -29,7 +29,6 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
 
     @Override
     public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
-
         if (player.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
             float cdr2 =  player.getItemCooldownManager().getCooldownProgress(stack, 0.0F)*40;
@@ -44,7 +43,6 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
         player.getItemCooldownManager().set(stack, COOLDOWN * 20);
     }
     public void spawnLightningBolt(MinecraftServer server, ItemStack stack,ServerPlayerEntity serverplayer) {
-
         List<ServerPlayerEntity> playList = server.getPlayerManager().getPlayerList();
         RelightTheThreePointStrategy.LOGGER.info(playList.toString());
         ServerWorld serverWorld =  server.getWorld(serverplayer.getEntityWorld().getRegistryKey());

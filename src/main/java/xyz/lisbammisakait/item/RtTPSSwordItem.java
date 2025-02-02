@@ -15,4 +15,5 @@ public class RtTPSSwordItem extends SwordItem {
     public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(0, attacker, EquipmentSlot.MAINHAND);
     }
+
 }

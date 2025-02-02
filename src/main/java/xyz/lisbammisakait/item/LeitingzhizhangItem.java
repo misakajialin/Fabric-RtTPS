@@ -17,7 +17,7 @@ import xyz.lisbammisakait.skill.ZhangJiaoASKill;
 import java.util.Random;
 
 public class LeitingzhizhangItem extends  RtTPSSwordItem {
-    private final int SPEED_DURATION = 5;
+    public static final int SPEED_DURATION = 5;
     private final int SPEED_AMPLIFIER = 1;
     public static int PROBABILITY = 50;
     public static final float COOLDOWN_REDUCTION = 7.0F;
@@ -27,6 +27,7 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker){
+
         stack.set(RtTPSComponents.HITNUMBER_TYPE,stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE,0)+1);
         if(stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0) == HITNUMBER){
             //设置使用次数为0

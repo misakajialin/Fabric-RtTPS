@@ -22,6 +22,5 @@ public class HorseSuperASkill extends Item implements ActiveSkillable {
         }
         HutouzhanjinqiangItem.recordSkillUseTime(player, server);
         stack.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, true);
-
     }
 }
