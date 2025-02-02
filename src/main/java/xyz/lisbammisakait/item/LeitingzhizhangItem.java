@@ -7,9 +7,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.mixininterface.RemainingCooldownGetter;
 import xyz.lisbammisakait.skill.ZhangJiaoASKill;
@@ -35,7 +37,7 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
             //给攻击者添加速度效果
             attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_DURATION*20, SPEED_AMPLIFIER));
 
-            PlayerEntity player = (PlayerEntity) attacker;
+           PlayerEntity player = (PlayerEntity) attacker;
             ItemStack skillstack = player.getInventory().getStack(7);
             RemainingCooldownGetter itemCooldownManager = (RemainingCooldownGetter) player.getItemCooldownManager();
             float cdr =  (float) itemCooldownManager.getRemainingCooldown(skillstack) /20;

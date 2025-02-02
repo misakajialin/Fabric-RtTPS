@@ -1,10 +1,14 @@
 package xyz.lisbammisakait.item;
 
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.world.World;
 
 import java.util.Random;
 
@@ -18,7 +22,6 @@ public class FeilongduofengItem extends RtTPSSwordItem {
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         PlayerEntity player = (PlayerEntity) attacker;
 //        RelightTheThreePointStrategy.LOGGER.info(String.valueOf(player.respawnCount));
-
         Random random = new Random();
         // 生成一个 0 到 9 之间的随机整数
         int randomNumber = random.nextInt(10);
@@ -49,6 +52,14 @@ public class FeilongduofengItem extends RtTPSSwordItem {
         }
 
         return super.postHit(stack, target, attacker);
+    }
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected){
+        if(world.isClient()){
+            return;
+        }
+        PlayerEntity player = (PlayerEntity) entity;
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 2, 10));
     }
 
 }
