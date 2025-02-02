@@ -53,6 +53,9 @@ public class ModItems {
     //注册沧海屠龙斧
     public static final RegistryKey<Item> CANGHAITULONGFU_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "canghaitulongfu"));
     public static final Item CANGHAITULONGFU = register(new CanghaitulongfuItem(ToolMaterial.GOLD, 10f, -3f, new Item.Settings().registryKey(CANGHAITULONGFU_KEY).component(RtTPSComponents.HITNUMBER_TYPE,0)), CANGHAITULONGFU_KEY);
+    //注册破虏
+    public static final RegistryKey<Item> POLU_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "polu"));
+    public static final Item POLU = register(new PoluItem(ToolMaterial.GOLD, 6f, -1f, new Item.Settings().registryKey(POLU_KEY).component(RtTPSComponents.HITNUMBER_TYPE,0)), POLU_KEY);
 
     //-----------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------
@@ -129,6 +132,7 @@ public class ModItems {
             itemGroup.add(ModItems.SHENWEIHUTOUZHANJINQIANG);
             itemGroup.add(ModItems.LEITINGZHIZHANG);
             itemGroup.add(ModItems.CANGHAITULONGFU);
+            itemGroup.add(ModItems.POLU);
         });
     }
     public static void initialize() {
