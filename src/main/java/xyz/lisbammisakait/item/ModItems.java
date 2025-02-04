@@ -87,6 +87,15 @@ public class ModItems {
     //注册曹操A技能
     public static final RegistryKey<Item> CAOCAOASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaoaskill"));
     public static final Item CAOCAOASKILL = register(new CaoCaoASkill( new Item.Settings().registryKey(CAOCAOASKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), CAOCAOASKILL_KEY);
+    //注册孙坚A技能
+    public static final RegistryKey<Item> SUNJIANASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "sunjianaskill"));
+    public static final Item SUNJIANASKILL = register(new SunJianASkill( new Item.Settings().registryKey(SUNJIANASKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), SUNJIANASKILL_KEY);
+    //注册孙坚P技能
+    public static final RegistryKey<Item> SUNJIANPSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "sunjianpskill"));
+    public static final Item SUNJIANPSKILL = register(new SunJianPSkill( new Item.Settings().registryKey(SUNJIANPSKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), SUNJIANPSKILL_KEY);
+    //注册孙坚P技能
+    public static final RegistryKey<Item> SUNJIANP2SKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "sunjianp2skill"));
+    public static final Item SUNJIANP2SKILL = register(new SunJianP2Skill( new Item.Settings().registryKey(SUNJIANP2SKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0).component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)), SUNJIANP2SKILL_KEY);
 
     //注册不可发动
     public static final RegistryKey<Item> UNLAUNCHABLE_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "unlaunchable"));
@@ -121,6 +130,9 @@ public class ModItems {
             itemGroup.add(ModItems.CAOCAOASKILL);
             itemGroup.add(ModItems.UNLAUNCHABLE);
             itemGroup.add(ModItems.MARK);
+            itemGroup.add(ModItems.SUNJIANASKILL);
+            itemGroup.add(ModItems.SUNJIANPSKILL);
+            itemGroup.add(ModItems.SUNJIANP2SKILL);
         });
     }
     //注册武器
