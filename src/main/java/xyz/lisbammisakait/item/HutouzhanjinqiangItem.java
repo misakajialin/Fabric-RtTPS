@@ -25,6 +25,7 @@ import java.util.*;
 
 public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     public final int COOLDOWN = 30;
+    public final int MAX_HEALTH = 30;
     // 存储玩家使用技能的时间
     protected static final Map<PlayerEntity, Long> SKILL_USE_TIME_MAP = new HashMap<>();
     // 技能持续时间,单位秒
@@ -85,14 +86,6 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
 
         return super.postHit(stack, target, attacker);
     }
-//    @Override
-//    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-//        if (stack.contains(RtTPSComponents.COOLDOWN_TYPE)) {
-//            //int rct = stack.get(RtTPSComponents.COOLDOWN_TYPE);
-//            int rct = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, COOLDOWN);
-//            tooltip.add(Text.translatable("item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time", rct).formatted(Formatting.GOLD));
-//        }
-//    }
     public static void recordSkillUseTime(PlayerEntity player, MinecraftServer server) {
         // 获取当前时间
         long currentTime = server.getWorld(player.getEntityWorld().getRegistryKey()).getTime();
@@ -134,17 +127,17 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
         if(world.isClient()){
             return;
         }
-            PlayerEntity player = (PlayerEntity) entity;
-            ItemStack mainHandStack = player.getMainHandStack();
-            // 如果玩家的主手拿着[神威]虎头湛金枪
-            if (mainHandStack == stack) {
-                // 为玩家添加加速效果
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 1));
-                long currentTime = world.getTime();
-                if (SKILL_USE_TIME_MAP.containsKey(player) && currentTime - SKILL_USE_TIME_MAP.get(player) <= SKILL_DURATION*20) {
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 2));
-                }
+        PlayerEntity player = (PlayerEntity) entity;
+        ItemStack mainHandStack = player.getMainHandStack();
+        // 如果玩家的主手拿着[神威]虎头湛金枪
+        if (mainHandStack == stack) {
+            // 为玩家添加加速效果
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 1));
+            long currentTime = world.getTime();
+            if (SKILL_USE_TIME_MAP.containsKey(player) && currentTime - SKILL_USE_TIME_MAP.get(player) <= SKILL_DURATION*20) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 2));
             }
-
+        }
+        boostMaxHealth(player, MAX_HEALTH);
     }
 }

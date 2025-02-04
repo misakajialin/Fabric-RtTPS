@@ -35,6 +35,7 @@ public class CaoCaoASkill extends Item implements ActiveSkillable {
 
     @Override
     public void castSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
+
         teleportPlayersTowardsTarget(serverplayer, server.getWorld(serverplayer.getWorld().getRegistryKey()), DISTANCE);
         RelightTheThreePointStrategy.LOGGER.info("castskill指令");
         if (hasOtherPlayersNearby(serverplayer)) {

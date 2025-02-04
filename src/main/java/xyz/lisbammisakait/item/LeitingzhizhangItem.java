@@ -1,5 +1,6 @@
 package xyz.lisbammisakait.item;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -24,20 +25,25 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
     public static int PROBABILITY = 50;
     public static final float COOLDOWN_REDUCTION = 7.0F;
     public static final int HITNUMBER = 3;
+    public final int MAX_HEALTH = 50;
     public LeitingzhizhangItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        boostMaxHealth((PlayerEntity) entity, MAX_HEALTH);
+    }
+
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker){
-
-        stack.set(RtTPSComponents.HITNUMBER_TYPE,stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE,0)+1);
+        PlayerEntity player = (PlayerEntity) attacker;
+        addHitNumber(player, target, stack);
         if(stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0) == HITNUMBER){
             //设置使用次数为0
             stack.set(RtTPSComponents.HITNUMBER_TYPE,0);
             //给攻击者添加速度效果
             attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_DURATION*20, SPEED_AMPLIFIER));
-
-           PlayerEntity player = (PlayerEntity) attacker;
             ItemStack skillstack = player.getInventory().getStack(7);
             RemainingCooldownGetter itemCooldownManager = (RemainingCooldownGetter) player.getItemCooldownManager();
             float cdr =  (float) itemCooldownManager.getRemainingCooldown(skillstack) /20;

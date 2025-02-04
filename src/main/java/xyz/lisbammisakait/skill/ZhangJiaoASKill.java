@@ -47,6 +47,7 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
         RelightTheThreePointStrategy.LOGGER.info(playList.toString());
         ServerWorld serverWorld =  server.getWorld(serverplayer.getEntityWorld().getRegistryKey());
         for(PlayerEntity player:playList){
+
             if(!player.equals(serverplayer)){
                 BlockPos underneathOfPlayer = player.getBlockPos();
                 // Spawn the lightning bolt.

@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
@@ -27,6 +28,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
@@ -47,7 +49,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class RelightTheThreePointStrategy implements ModInitializer {
 	public static final String MOD_ID = "relight-the-three-point-strategy";
-
+	public static final Identifier MAX_HEALTH_ID = Identifier.of(RelightTheThreePointStrategy.MOD_ID,"max_health_modifier");
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
@@ -55,7 +57,6 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
         // This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
@@ -66,6 +67,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 //			RelightTheThreePointStrategy.LOGGER.info("全局拦截到攻击"+entity.getName());
 //			return ActionResult.PASS;
 //		});
+
 		// 注册服务器启动事件
 		ServerLifecycleEvents.SERVER_STARTED.register(this::createScoreboard);
 		//下方法即将被废弃,请使用新api
