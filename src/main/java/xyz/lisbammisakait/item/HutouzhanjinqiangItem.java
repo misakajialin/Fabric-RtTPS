@@ -41,7 +41,7 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void specialAbility(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         // 计算从攻击者指向被攻击者的方向向量
         Vec3d direction = target.getPos().subtract(attacker.getPos());
         // 对方向向量进行归一化，得到单位方向向量
@@ -83,8 +83,6 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
         }else {
             attacker.getServer().sendMessage(Text.of("技能未生效"));
         }
-
-        return super.postHit(stack, target, attacker);
     }
     public static void recordSkillUseTime(PlayerEntity player, MinecraftServer server) {
         // 获取当前时间

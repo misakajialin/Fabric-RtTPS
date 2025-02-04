@@ -14,7 +14,7 @@ public class HorseSuperASkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
+    public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
         boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
         if (isExhausted) {
             player.sendMessage(Text.of("你已经使用过该技能"), true);

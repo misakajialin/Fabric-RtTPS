@@ -23,7 +23,7 @@ public class PoluItem extends  RtTPSSwordItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, net.minecraft.entity.LivingEntity target, net.minecraft.entity.LivingEntity attacker) {
+    public void specialAbility(ItemStack stack, net.minecraft.entity.LivingEntity target, net.minecraft.entity.LivingEntity attacker) {
         PlayerEntity player =(PlayerEntity)attacker;
         addHitNumber(player, target, stack);
         if (player != null) {
@@ -47,7 +47,6 @@ public class PoluItem extends  RtTPSSwordItem {
 
             player.damage(attacker.getServer().getWorld(player.getWorld().getRegistryKey()), DamageSource.OUT_OF_WORLD, 2);*/
             }
-        return super.postHit(stack, target, attacker);
     }
 
 }

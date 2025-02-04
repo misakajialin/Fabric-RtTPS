@@ -2,6 +2,9 @@ package xyz.lisbammisakait.skill;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -34,19 +39,15 @@ public class CaoCaoASkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
-
+    public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
         teleportPlayersTowardsTarget(serverplayer, server.getWorld(serverplayer.getWorld().getRegistryKey()), DISTANCE);
-        RelightTheThreePointStrategy.LOGGER.info("castskill指令");
         if (hasOtherPlayersNearby(serverplayer)) {
-            RelightTheThreePointStrategy.LOGGER.info("周围有玩家");
             serverplayer.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, EFFECT_AMPLIFIER));
         }
         serverplayer.getItemCooldownManager().set(stack, COOLDOWN * 20);
     }
 
     public static void teleportPlayersTowardsTarget(PlayerEntity targetPlayer, ServerWorld world, double distance) {
-        RelightTheThreePointStrategy.LOGGER.info("tp指令");
         // 获取指定玩家的位置
         Vec3d targetPos = targetPlayer.getPos();
 
@@ -59,6 +60,7 @@ public class CaoCaoASkill extends Item implements ActiveSkillable {
 
         // 遍历所有玩家
         for (PlayerEntity player : allPlayers) {
+
             if (!player.equals(targetPlayer)) {
                 // 计算当前玩家与指定玩家的距离
                 double currentDistance = player.getPos().distanceTo(targetPos);

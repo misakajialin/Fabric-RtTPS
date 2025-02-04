@@ -26,7 +26,7 @@ public class FeilongduofengItem extends RtTPSSwordItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void specialAbility(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         PlayerEntity player = (PlayerEntity) attacker;
 //        RelightTheThreePointStrategy.LOGGER.info(String.valueOf(player.respawnCount));
         Random random = new Random();
@@ -57,8 +57,6 @@ public class FeilongduofengItem extends RtTPSSwordItem {
            //target.addVelocity(motionX * knockbackStrength, 0.5, motionZ * knockbackStrength);
             target.takeKnockback(knockbackStrength, -motionX, -motionZ);
         }
-
-        return super.postHit(stack, target, attacker);
     }
 
 }

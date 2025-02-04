@@ -40,7 +40,7 @@ public class CanghaitulongfuItem extends  RtTPSSwordItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target,LivingEntity attacker) {
+    public void specialAbility(ItemStack stack, LivingEntity target,LivingEntity attacker) {
         PlayerEntity player =(PlayerEntity)attacker;
         //生成一个猪
 //        PigEntity pig =new PigEntity(EntityType.PIG,player.getServer().getOverworld());
@@ -57,8 +57,7 @@ public class CanghaitulongfuItem extends  RtTPSSwordItem {
             ItemStack newItemStack = new ItemStack(ModItems.CAOCAOBSKILL, 1);
             // 将技能B位置更换为新的物品栈
             player.getInventory().main.set(7, newItemStack);
-            }
-        return super.postHit(stack, target, attacker);
+        }
     }
 }
 

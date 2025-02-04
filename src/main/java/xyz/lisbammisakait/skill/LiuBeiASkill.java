@@ -36,7 +36,7 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
+    public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
         if (player.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
             player.sendMessage(Text.of("技能冷却中"), false);

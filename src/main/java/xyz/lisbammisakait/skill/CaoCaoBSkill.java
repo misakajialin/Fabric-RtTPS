@@ -24,10 +24,12 @@ public class CaoCaoBSkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
+    public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
         RelightTheThreePointStrategy.LOGGER.info("给自己添加速度与伤害吸收效果");
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_EFFECT_DURATION * 20, SPEED_EFFECT_AMPLIFIER));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, ABSORPTION_EFFECT_DURATION * 20, ABSORPTION_EFFECT_AMPLIFIER));
+        //TODO 修改此处使用动态渲染而非替换
+
         // 创建一个新的物品栈
         ItemStack newItemStack = new ItemStack(ModItems.UNLAUNCHABLE, 1);
         // 将技能B位置更换为新的物品栈

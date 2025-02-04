@@ -14,10 +14,12 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
+import xyz.lisbammisakait.item.HutouzhanjinqiangItem;
 import xyz.lisbammisakait.item.ModItems;
 import xyz.lisbammisakait.tools.SafeTp;
 import net.minecraft.entity.damage.DamageSource;
@@ -28,18 +30,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class SunJianASkill extends Item implements ActiveSkillable {
+import static xyz.lisbammisakait.skill.MarkItem.markSlot;
 
+public class SunJianASkill extends Item implements ActiveSkillable {
+    public final int SLOWNESSTIME = 4;
     public SunJianASkill(Settings settings) {
         super(settings);
     }
 
     @Override
-    public void castSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
-        // 创建一个新的物品栈
-        ItemStack newItemStack = new ItemStack(ModItems.UNLAUNCHABLE, 1);
-        // 将技能B位置更换为新的物品栈
-        serverplayer.getInventory().main.set(8, newItemStack);
+    public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
+//        // 创建一个新的物品栈
+//        ItemStack newItemStack = new ItemStack(ModItems.UNLAUNCHABLE, 1);
+//        // 将技能B位置更换为新的物品栈
+//        serverplayer.getInventory().main.set(8, newItemStack);
+        boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
+        if (isExhausted) {
+            serverplayer.sendMessage(Text.of("你已经使用过该技能"), true);
+            return;
+        }
+        stack.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, true);
 
         // 获取服务器中的所有玩家列表
         List<ServerPlayerEntity> playerList = server.getPlayerManager().getPlayerList();
@@ -66,12 +76,12 @@ public class SunJianASkill extends Item implements ActiveSkillable {
             RelightTheThreePointStrategy.LOGGER.info(serverplayer.getName().getString() + " 传送到了 " + targetPlayer.getName().getString() + " 的位置");
 
             //赋予减速
-            targetPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 4 * 20, 3));
+            targetPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, SLOWNESSTIME * 20, 3));
 
             //检测二段伤害
             if(isMarkInSlot(serverplayer))//检测物品栏
             {
-                if (serverplayer.getInventory().getStack(4).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE) <= 2)
+                if (serverplayer.getInventory().getStack(markSlot).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE) <= 2)
                 {
                     targetPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 3));
                     /*ServerWorld world = (ServerWorld) serverplayer.getWorld();
@@ -86,13 +96,12 @@ public class SunJianASkill extends Item implements ActiveSkillable {
             }
         }
     }
+
     //检查玩家快捷栏第5格是否为mark
     public static boolean isMarkInSlot(PlayerEntity player) {
-        // 快捷栏第5格对应的索引是4（索引从0开始）
-        int slotIndex = 4;
         // 获取玩家的快捷栏物品栈
-        ItemStack itemStack = player.getInventory().getStack(slotIndex);
-        // 检查物品栈是否为空以及物品是否为钻石剑
+        ItemStack itemStack = player.getInventory().getStack(markSlot);
+        // 检查物品栈是否为空以及物品是否为mark
         return !itemStack.isEmpty() && itemStack.getItem() == ModItems.MARK;
     }
 }

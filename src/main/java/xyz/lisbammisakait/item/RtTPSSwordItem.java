@@ -12,6 +12,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
@@ -19,6 +21,8 @@ import xyz.lisbammisakait.compoennt.RtTPSComponents;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static xyz.lisbammisakait.skill.MarkItem.markSlot;
 
 public abstract class RtTPSSwordItem extends SwordItem {
     public final Map<Entity, Long> lastHitTime = new HashMap<>();
@@ -37,6 +41,20 @@ public abstract class RtTPSSwordItem extends SwordItem {
             lastHitTime.put(target, currentTime);
         }
     }
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+//        if(attacker instanceof PlayerEntity){
+//            PlayerEntity caster = (PlayerEntity) attacker;
+//            if(!caster.getInventory().getStack(markSlot).get(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE)){
+//                specialAbility(stack, target, attacker);
+//            }else{
+//                return false;
+//            }
+//        }
+        specialAbility(stack, target, attacker);
+        return super.postHit(stack, target, attacker);
+    }
+    protected abstract void specialAbility(ItemStack stack, LivingEntity target, LivingEntity attacker);
     @Override
     public abstract void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected);
     public void boostMaxHealth(PlayerEntity player,int maxHealth){

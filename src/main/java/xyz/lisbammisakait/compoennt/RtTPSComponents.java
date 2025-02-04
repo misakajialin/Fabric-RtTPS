@@ -34,4 +34,16 @@ public class RtTPSComponents {
             Identifier.of(RelightTheThreePointStrategy.MOD_ID, "remainingrespawncount"),
             ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
+    public static final ComponentType<Boolean> ISWITHINRESPAWNPHASE_TYPE = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Identifier.of(RelightTheThreePointStrategy.MOD_ID, "iswithinrespawnphase"),
+            ComponentType.<Boolean>builder().codec(Codec.BOOL).build()
+    );
+    //TODO 以后使用枚举类
+    public static final ComponentType<Integer> FACTION_TYPE = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Identifier.of(RelightTheThreePointStrategy.MOD_ID, "faction"),
+            ComponentType.<Integer>builder().codec(Codec.INT).build()
+            //0 蜀国,1 吴国,2 魏国,3 汉朝
+    );
 }
