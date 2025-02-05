@@ -123,8 +123,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	}
 
 	private boolean handlePlayerDeath(LivingEntity livingEntity, DamageSource damageSource, float damageAmount){
-		if(livingEntity instanceof ServerPlayerEntity){
-			ServerPlayerEntity player = (ServerPlayerEntity) livingEntity;
+		if(livingEntity instanceof ServerPlayerEntity player){
 			ItemStack mark  = player.getInventory().getStack(MARKSLOT);
 			int rsc = mark.get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE);
 			mark.set(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE, rsc - 1);

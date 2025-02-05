@@ -126,10 +126,10 @@ public class CaoCaoASkill extends Item implements ActiveSkillable {
      * @return 是否有其他玩家在周围5格内
      */
     public static boolean hasOtherPlayersNearby(PlayerEntity player) {
-        if (!(player.getWorld() instanceof ServerWorld)) {
+        if (!(player.getWorld() instanceof ServerWorld world)) {
             return false;
         }
-        ServerWorld world = (ServerWorld) player.getWorld();
+//        ServerWorld world = (ServerWorld) player.getWorld();
         // 获取玩家位置
         Vec3d playerPos = player.getPos();
         // 定义检测范围（以玩家为中心，周围5格）

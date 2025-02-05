@@ -24,8 +24,8 @@ public abstract class LightningDamageMixin {
     @Inject(method = "onStruckByLightning", at = @At("HEAD"), cancellable = true)
     private void onStruckByLightning(CallbackInfo ci) {
         // 检查当前实体是否为玩家
-        if ((Object) this instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) (Object) this;
+        if ((Object) this instanceof PlayerEntity player) {
+//            PlayerEntity player = (PlayerEntity) (Object) this;
             // 检查玩家是否拥有特定物品
             if (player.getInventory().contains( ModItems.LEITINGZHIZHANG.getDefaultStack())) {
                 // 取消雷电伤害
