@@ -1,24 +1,34 @@
 package xyz.lisbammisakait.item;
 
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.world.World;
 
 import java.util.Random;
 
 public class FeilongduofengItem extends RtTPSSwordItem {
-    public static final int PROBABILITY = 20;
+    public static final int PROBABILITY = 30;
     public static final int FIRETIME = 2;
+    public final int MAX_HEALTH = 30;
     public FeilongduofengItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
+
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        boostMaxHealth((PlayerEntity) entity, MAX_HEALTH);
+    }
+
+    @Override
+    public void specialAbility(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         PlayerEntity player = (PlayerEntity) attacker;
 //        RelightTheThreePointStrategy.LOGGER.info(String.valueOf(player.respawnCount));
-
         Random random = new Random();
         // 生成一个 0 到 9 之间的随机整数
         int randomNumber = random.nextInt(10);
@@ -47,8 +57,6 @@ public class FeilongduofengItem extends RtTPSSwordItem {
            //target.addVelocity(motionX * knockbackStrength, 0.5, motionZ * knockbackStrength);
             target.takeKnockback(knockbackStrength, -motionX, -motionZ);
         }
-
-        return super.postHit(stack, target, attacker);
     }
 
 }

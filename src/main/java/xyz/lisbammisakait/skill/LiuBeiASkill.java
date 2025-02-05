@@ -1,6 +1,7 @@
 package xyz.lisbammisakait.skill;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
@@ -25,7 +26,7 @@ import java.util.List;
 public class LiuBeiASkill extends Item implements ActiveSkillable {
     public static final int EFFECT_DURATION = 10;
     public static final int  EFFECT_AMPLIFIER = 1;
-    private final int RECOVERHEALTH = 5;
+    private final int RECOVERHEALTH = 10;
     private final int RANGE = 5;
 
     private final int COOLDOWN = 40;
@@ -35,13 +36,12 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
     }
 
     @Override
-    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
+    public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
         if (player.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
             player.sendMessage(Text.of("技能冷却中"), false);
             return ;
         }
-
 //        ServerWorld serverWorld =  client.getServer().getWorld(user.getEntityWorld().getRegistryKey());
         //回血
         float currentHealth = player.getHealth();
@@ -49,7 +49,7 @@ public class LiuBeiASkill extends Item implements ActiveSkillable {
         if (currentHealth < maxHealth) {
             player.setHealth(Math.min(currentHealth + RECOVERHEALTH, maxHealth));
         }
-        RelightTheThreePointStrategy.LOGGER.info("给自己添加生命回复效果");
+        //给自己添加瞬间指令效果
 //        ClientPlayNetworking.send(new LiuBeiASkillPayload(RANGE));
         EntityFinder entityFinder = new EntityFinder();
         List<LivingEntity> nearbyEntities = entityFinder.getNearbyEntities(player,server.getWorld(player.getWorld().getRegistryKey()),RANGE,LivingEntity.class);

@@ -9,6 +9,8 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import xyz.lisbammisakait.network.packet.SkillSlotPayload;
 
+import java.io.IOException;
+
 public class RelightTheThreePointStrategyClient implements ClientModInitializer {
     private static KeyBinding keyBindingV;
     private static KeyBinding keyBindingB;

@@ -1,38 +1,67 @@
 package xyz.lisbammisakait.item;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageEffects;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.scoreboard.ScoreAccess;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 import xyz.lisbammisakait.mixininterface.RemainingCooldownGetter;
 import xyz.lisbammisakait.skill.ZhangJiaoASKill;
-
+import net.minecraft.entity.damage.DamageSource;
 import java.util.Random;
 
 public class LeitingzhizhangItem extends  RtTPSSwordItem {
-    private final int SPEED_DURATION = 5;
+    public static final int SPEED_DURATION = 5;
     private final int SPEED_AMPLIFIER = 1;
     public static int PROBABILITY = 50;
     public static final float COOLDOWN_REDUCTION = 7.0F;
     public static final int HITNUMBER = 3;
+    public final int MAX_HEALTH = 50;
     public LeitingzhizhangItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
+
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker){
-        stack.set(RtTPSComponents.HITNUMBER_TYPE,stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE,0)+1);
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        boostMaxHealth((PlayerEntity) entity, MAX_HEALTH);
+        if(world.isClient){
+            return;
+        }
+        ServerPlayerEntity player = (ServerPlayerEntity) entity;
+        Scoreboard scoreboard = player.getServer().getScoreboard();
+        ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("isGameStarted");
+        ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", respawnCountSBO);
+        if(scoreAccess.getScore()==1){
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, LeitingzhizhangItem.SPEED_DURATION *20, 1));
+        }
+    }
+
+    @Override
+    public void specialAbility(ItemStack stack, LivingEntity target, LivingEntity attacker){
+        PlayerEntity player = (PlayerEntity) attacker;
+        addHitNumber(player, target, stack);
+
+
         if(stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0) == HITNUMBER){
             //设置使用次数为0
             stack.set(RtTPSComponents.HITNUMBER_TYPE,0);
             //给攻击者添加速度效果
-            //attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_DURATION*20, SPEED_AMPLIFIER));
-
-            PlayerEntity player = (PlayerEntity) attacker;
+            attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_DURATION*20, SPEED_AMPLIFIER));
             ItemStack skillstack = player.getInventory().getStack(7);
             RemainingCooldownGetter itemCooldownManager = (RemainingCooldownGetter) player.getItemCooldownManager();
             float cdr =  (float) itemCooldownManager.getRemainingCooldown(skillstack) /20;
@@ -54,7 +83,6 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
                 skill.spawnLightningBolt(attacker.getServer(),stack, (ServerPlayerEntity) player);
             }
         }
-        return super.postHit(stack, target, attacker);
     }
 
 

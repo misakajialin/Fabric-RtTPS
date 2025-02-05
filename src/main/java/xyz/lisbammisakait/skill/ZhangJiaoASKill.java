@@ -12,10 +12,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
+import xyz.lisbammisakait.tools.PlayerListGet;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.util.List;
+
+import static xyz.lisbammisakait.compoennt.RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE;
 
 public class ZhangJiaoASKill extends Item implements ActiveSkillable {
     private final int COOLDOWN = 40;
@@ -26,8 +29,7 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
 
 
     @Override
-    public void castSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
-
+    public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
         if (player.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
             float cdr2 =  player.getItemCooldownManager().getCooldownProgress(stack, 0.0F)*40;
@@ -42,11 +44,12 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
         player.getItemCooldownManager().set(stack, COOLDOWN * 20);
     }
     public void spawnLightningBolt(MinecraftServer server, ItemStack stack,ServerPlayerEntity serverplayer) {
-
-        List<ServerPlayerEntity> playList = server.getPlayerManager().getPlayerList();
-        RelightTheThreePointStrategy.LOGGER.info(playList.toString());
+//        List<ServerPlayerEntity> playList = server.getPlayerManager().getPlayerList();
+        List<ServerPlayerEntity> playerList = PlayerListGet.getNonSelfAndNonRespawningPlayers(server, serverplayer);
+        RelightTheThreePointStrategy.LOGGER.info(playerList.toString());
         ServerWorld serverWorld =  server.getWorld(serverplayer.getEntityWorld().getRegistryKey());
-        for(PlayerEntity player:playList){
+        for(PlayerEntity player:playerList){
+
             if(!player.equals(serverplayer)){
                 BlockPos underneathOfPlayer = player.getBlockPos();
                 // Spawn the lightning bolt.
@@ -56,16 +59,17 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
             }
         }
         stack.set(RtTPSComponents.USENUMBER_TYPE,stack.getOrDefault(RtTPSComponents.USENUMBER_TYPE,0)+1);
-        //当发动次数达到次数
+        //当发动次数达到次数,增加玩家复活次数
         if(stack.getOrDefault(RtTPSComponents.USENUMBER_TYPE,0)==SPNUMBER){
             stack.set(RtTPSComponents.USENUMBER_TYPE,0);
-            try {
-                //增加玩家的复活次数
-                VarHandle playerHandle = MethodHandles.lookup().findVarHandle(PlayerEntity.class, "respawnCount", int.class);
-                playerHandle.set(serverplayer,(int)playerHandle.get(serverplayer)+1);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            stack.set(REMAININGRESPAWNCOUNT_TYPE,stack.getOrDefault(REMAININGRESPAWNCOUNT_TYPE,0)+1);
+//            try {
+//                增加玩家的复活次数
+//                VarHandle playerHandle = MethodHandles.lookup().findVarHandle(PlayerEntity.class, "respawnCount", int.class);
+//                playerHandle.set(serverplayer,(int)playerHandle.get(serverplayer)+1);
+//            } catch (NoSuchFieldException | IllegalAccessException e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
 }

@@ -24,9 +24,9 @@ public class ShenweihutouzhanjianjinqiangItem extends HutouzhanjinqiangItem {
         return ActionResult.SUCCESS;
     }
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void specialAbility(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker.getWorld().isClient()) {
-            return true;
+            return;
         }
         PlayerEntity user = (PlayerEntity) attacker;
         // 创建一个新的物品栈
@@ -48,7 +48,6 @@ public class ShenweihutouzhanjianjinqiangItem extends HutouzhanjinqiangItem {
         }else {
             attacker.getServer().sendMessage(Text.of("技能未生效"));
         }
-        return super.postHit(stack, target, attacker);
     }
     @Override
     protected void knockup(LivingEntity target, LivingEntity attacker) {

@@ -1,13 +1,15 @@
 package xyz.lisbammisakait.item;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -23,6 +25,7 @@ import java.util.*;
 
 public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     public final int COOLDOWN = 30;
+    public final int MAX_HEALTH = 30;
     // 存储玩家使用技能的时间
     protected static final Map<PlayerEntity, Long> SKILL_USE_TIME_MAP = new HashMap<>();
     // 技能持续时间,单位秒
@@ -38,7 +41,7 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void specialAbility(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         // 计算从攻击者指向被攻击者的方向向量
         Vec3d direction = target.getPos().subtract(attacker.getPos());
         // 对方向向量进行归一化，得到单位方向向量
@@ -80,17 +83,7 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
         }else {
             attacker.getServer().sendMessage(Text.of("技能未生效"));
         }
-
-        return super.postHit(stack, target, attacker);
     }
-//    @Override
-//    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-//        if (stack.contains(RtTPSComponents.COOLDOWN_TYPE)) {
-//            //int rct = stack.get(RtTPSComponents.COOLDOWN_TYPE);
-//            int rct = stack.getOrDefault(RtTPSComponents.COOLDOWN_TYPE, COOLDOWN);
-//            tooltip.add(Text.translatable("item.relight-the-three-point-strategy.hutouzhanjinqiang.remaining-cooldown-time", rct).formatted(Formatting.GOLD));
-//        }
-//    }
     public static void recordSkillUseTime(PlayerEntity player, MinecraftServer server) {
         // 获取当前时间
         long currentTime = server.getWorld(player.getEntityWorld().getRegistryKey()).getTime();
@@ -113,22 +106,36 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
         if (world.isClient()) {
             return ActionResult.SUCCESS;
         }
-
         // 获取物品冷却管理器
         if (user.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，返回失败
             return ActionResult.FAIL;
         }
-
             // 创建一个新的物品栈
             ItemStack newItemStack = new ItemStack(ModItems.SHENWEIHUTOUZHANJINQIANG, 1);
             // 将主手物品更换为新的物品栈
             user.getInventory().main.set(user.getInventory().selectedSlot, newItemStack);
-
             // 设置物品进入冷却状态,注意：冷却时间单位是游戏刻，1 秒 = 20 游戏刻
             user.getItemCooldownManager().set(stack, COOLDOWN * 20);
-
             return ActionResult.SUCCESS;
 
+    }
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected){
+        if(world.isClient()){
+            return;
+        }
+        PlayerEntity player = (PlayerEntity) entity;
+        ItemStack mainHandStack = player.getMainHandStack();
+        // 如果玩家的主手拿着[神威]虎头湛金枪
+        if (mainHandStack == stack) {
+            // 为玩家添加加速效果
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 1));
+            long currentTime = world.getTime();
+            if (SKILL_USE_TIME_MAP.containsKey(player) && currentTime - SKILL_USE_TIME_MAP.get(player) <= SKILL_DURATION*20) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, 2));
+            }
+        }
+        boostMaxHealth(player, MAX_HEALTH);
     }
 }

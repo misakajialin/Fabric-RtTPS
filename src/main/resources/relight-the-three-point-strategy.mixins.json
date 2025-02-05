@@ -6,7 +6,8 @@
 		"ExampleMixin",
 		"LightningDamageMixin",
 		"ItemCooldownManagerMixin",
-		"PlayerEntityMixin"
+		"PlayerEntityMixin",
+		"SlotMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
