@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -20,14 +21,18 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardCriterion;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.SpreadPlayersCommand;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.GameMode;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
@@ -39,7 +44,7 @@ import xyz.lisbammisakait.tools.Pile;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
-import static xyz.lisbammisakait.skill.MarkItem.markSlot;
+import static xyz.lisbammisakait.skill.MarkItem.MARKSLOT;
 import static xyz.lisbammisakait.tools.Pile.*;
 
 public class RelightTheThreePointStrategy implements ModInitializer {
@@ -64,7 +69,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		//以下为新api
 		ServerLivingEntityEvents.ALLOW_DEATH.register(this::handlePlayerDeath);
 
-//		AttackEntityCallback.EVENT.register(this::)
+		AttackEntityCallback.EVENT.register(this::deadPlayerDisarm);
 	// 注册获取剩余复活次数的命令
 //		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("getrsc")
 //				.then(argument("target", EntityArgumentType.player())
@@ -108,10 +113,19 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 //            });
 //        });
 	}
+
+	private ActionResult deadPlayerDisarm(PlayerEntity playerEntity, World world, Hand hand, Entity entity, @Nullable EntityHitResult entityHitResult) {
+		ItemStack mark = playerEntity.getInventory().getStack(MARKSLOT);
+		if(mark.getOrDefault(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE,false)){
+				return ActionResult.FAIL;
+		}
+		return ActionResult.PASS;
+	}
+
 	private boolean handlePlayerDeath(LivingEntity livingEntity, DamageSource damageSource, float damageAmount){
 		if(livingEntity instanceof ServerPlayerEntity){
 			ServerPlayerEntity player = (ServerPlayerEntity) livingEntity;
-			ItemStack mark  = player.getInventory().getStack(markSlot);
+			ItemStack mark  = player.getInventory().getStack(MARKSLOT);
 			int rsc = mark.get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE);
 			mark.set(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE, rsc - 1);
 			if(rsc==-1) {
@@ -131,7 +145,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		AtomicInteger deadPlayerCount = new AtomicInteger();
 		//检测玩家是否全部死亡
 		server.getPlayerManager().getPlayerList().parallelStream().forEach(player -> {
-			if(player.getInventory().getStack(markSlot).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE)==0){
+			if(player.getInventory().getStack(MARKSLOT).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE)==0){
 				deadPlayerCount.getAndIncrement();
 			}
 		});
@@ -159,7 +173,6 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		}
 		return false;
 	}
-	//TODO 死亡缴械
 	private void respawnPlayer(ServerPlayerEntity player) {
 			player.setHealth(player.getMaxHealth());
 			player.clearStatusEffects();
@@ -170,7 +183,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 				Notifiee.sendMessage(Text.of(player.getName() + "死亡"), true);
 			});
 			//设置复活状态
-			player.getInventory().getStack(markSlot).set(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE, true);
+			player.getInventory().getStack(MARKSLOT).set(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE, true);
 			//复活倒计时
 			Runnable runnable = () -> {
 				try {
@@ -180,7 +193,6 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 					}
 					player.sendMessage(Text.of("复活倒计时：0s"), true);
 					Inventory inventory= player.getInventory();
-					inventory.getStack(markSlot).set(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE, false);
 					int faction = inventory.getStack(0).getOrDefault(RtTPSComponents.FACTION_TYPE, 0);
 					int maxY = 257;
 					switch (faction){
@@ -201,6 +213,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 							getMinDistance(Collections.singleton(player), world,han, maxY, false);
 							break;
 					}
+					inventory.getStack(MARKSLOT).set(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE, false);
 //					player.teleport(player.getServer().getWorld(player.getWorld().getRegistryKey()), 0, 98, 0, Collections.emptySet(), 0, 0, false);
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);

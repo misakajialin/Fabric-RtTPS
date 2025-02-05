@@ -29,7 +29,6 @@ public class LiuBeiBSkill extends Item implements ActiveSkillable {
             // 如果物品正在冷却中，直接返回
             return;
         }
-        RelightTheThreePointStrategy.LOGGER.info("给自己添加凋零与力量效果");
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, WITHER_EFFECT_DURATION * 20, WITHER_EFFECT_AMPLIFIER));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, STRENGTH_EFFECT_DURATION * 20, STRENGTH_EFFECT_AMPLIFIER));
         player.getItemCooldownManager().set(stack, COOLDOWN * 20);

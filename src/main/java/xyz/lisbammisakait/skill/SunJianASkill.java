@@ -1,36 +1,29 @@
 package xyz.lisbammisakait.skill;
 
-import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.DrownedEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
-import xyz.lisbammisakait.item.HutouzhanjinqiangItem;
 import xyz.lisbammisakait.item.ModItems;
+import xyz.lisbammisakait.tools.PlayerListGet;
 import xyz.lisbammisakait.tools.SafeTp;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.LivingEntity;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static xyz.lisbammisakait.skill.MarkItem.markSlot;
+import static xyz.lisbammisakait.skill.MarkItem.MARKSLOT;
 
 public class SunJianASkill extends Item implements ActiveSkillable {
     public final int SLOWNESSTIME = 4;
@@ -40,24 +33,19 @@ public class SunJianASkill extends Item implements ActiveSkillable {
 
     @Override
     public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
-//        // 创建一个新的物品栈
-//        ItemStack newItemStack = new ItemStack(ModItems.UNLAUNCHABLE, 1);
-//        // 将技能B位置更换为新的物品栈
-//        serverplayer.getInventory().main.set(8, newItemStack);
-        boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
-        if (isExhausted) {
-            serverplayer.sendMessage(Text.of("你已经使用过该技能"), true);
-            return;
-        }
-        stack.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, true);
+        // 创建一个新的物品栈
+        ItemStack newItemStack = new ItemStack(ModItems.UNLAUNCHABLE, 1);
+        // 将技能B位置更换为新的物品栈
+        serverplayer.getInventory().main.set(8, newItemStack);
+//        boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
+//        if (isExhausted) {
+//            serverplayer.sendMessage(Text.of("你已经使用过该技能"), true);
+//            return;
+//        }
+//        stack.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, true);
 
-        // 获取服务器中的所有玩家列表
-        List<ServerPlayerEntity> playerList = server.getPlayerManager().getPlayerList();
-        // 移除当前玩家自身
-        playerList.remove(serverplayer);
-        //移出正常复活的玩家
-        //交给家霖
-
+        // 获取服务器中的除了自己和死亡的人之外的所有玩家
+        List<ServerPlayerEntity> playerList = PlayerListGet.getNonSelfAndNonRespawningPlayers(server, serverplayer);
         if (!playerList.isEmpty()) {
             // 随机选择一名其他玩家
             Collections.shuffle(playerList);
@@ -81,7 +69,7 @@ public class SunJianASkill extends Item implements ActiveSkillable {
             //检测二段伤害
             if(isMarkInSlot(serverplayer))//检测物品栏
             {
-                if (serverplayer.getInventory().getStack(markSlot).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE) <= 2)
+                if (serverplayer.getInventory().getStack(MARKSLOT).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE) <= 2)
                 {
                     targetPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 3));
                     /*ServerWorld world = (ServerWorld) serverplayer.getWorld();
@@ -100,7 +88,7 @@ public class SunJianASkill extends Item implements ActiveSkillable {
     //检查玩家快捷栏第5格是否为mark
     public static boolean isMarkInSlot(PlayerEntity player) {
         // 获取玩家的快捷栏物品栈
-        ItemStack itemStack = player.getInventory().getStack(markSlot);
+        ItemStack itemStack = player.getInventory().getStack(MARKSLOT);
         // 检查物品栈是否为空以及物品是否为mark
         return !itemStack.isEmpty() && itemStack.getItem() == ModItems.MARK;
     }

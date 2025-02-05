@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
+import xyz.lisbammisakait.tools.PlayerListGet;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
@@ -43,10 +44,11 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
         player.getItemCooldownManager().set(stack, COOLDOWN * 20);
     }
     public void spawnLightningBolt(MinecraftServer server, ItemStack stack,ServerPlayerEntity serverplayer) {
-        List<ServerPlayerEntity> playList = server.getPlayerManager().getPlayerList();
-        RelightTheThreePointStrategy.LOGGER.info(playList.toString());
+//        List<ServerPlayerEntity> playList = server.getPlayerManager().getPlayerList();
+        List<ServerPlayerEntity> playerList = PlayerListGet.getNonSelfAndNonRespawningPlayers(server, serverplayer);
+        RelightTheThreePointStrategy.LOGGER.info(playerList.toString());
         ServerWorld serverWorld =  server.getWorld(serverplayer.getEntityWorld().getRegistryKey());
-        for(PlayerEntity player:playList){
+        for(PlayerEntity player:playerList){
 
             if(!player.equals(serverplayer)){
                 BlockPos underneathOfPlayer = player.getBlockPos();

@@ -8,7 +8,7 @@ import net.minecraft.text.Text;
 import java.util.List;
 
 public class MarkItem extends Item implements PassiveSkillable {
-    public static final int markSlot = 4;
+    public static final int MARKSLOT = 4;
     public MarkItem(Settings settings) {
         super(settings);
     }
