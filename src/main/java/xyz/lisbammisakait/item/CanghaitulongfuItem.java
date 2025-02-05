@@ -5,6 +5,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -14,6 +16,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -25,6 +28,7 @@ import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CanghaitulongfuItem extends  RtTPSSwordItem {
@@ -51,12 +55,10 @@ public class CanghaitulongfuItem extends  RtTPSSwordItem {
         addHitNumber(player, target, stack);
         player.sendMessage(Text.of("攻击次数: " + stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0)), true);
         if(stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0) >= HITNUMBER){
-            //设置使用次数为0
-//            stack.set(RtTPSComponents.HITNUMBER_TYPE,0);
-            // 创建一个新的物品栈
-            ItemStack newItemStack = new ItemStack(ModItems.CAOCAOBSKILL, 1);
-            // 将技能B位置更换为新的物品栈
-            player.getInventory().main.set(7, newItemStack);
+            ItemStack caoCaoBSkill = player.getInventory().getStack(7);
+            caoCaoBSkill.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, false);
+            //改变纹理为技能图标
+            caoCaoBSkill.set(DataComponentTypes.CUSTOM_MODEL_DATA,new CustomModelDataComponent(List.of(), List.of(true),List.of(),List.of()));
         }
     }
 }

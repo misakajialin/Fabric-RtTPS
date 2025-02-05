@@ -90,7 +90,10 @@ public class ModItems {
             .component(RtTPSComponents.USENUMBER_TYPE,0)), ZHANGJIAOASKILL_KEY);
     //注册曹操B技能
     public static final RegistryKey<Item> CAOCAOBSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaobskill"));
-    public static final Item CAOCAOBSKILL = register(new CaoCaoBSkill( new Item.Settings().registryKey(CAOCAOBSKILL_KEY)), CAOCAOBSKILL_KEY);
+    public static final Item CAOCAOBSKILL = register(new CaoCaoBSkill( new Item.Settings()
+            .registryKey(CAOCAOBSKILL_KEY)
+            .component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)
+            .component(DataComponentTypes.CUSTOM_MODEL_DATA,new CustomModelDataComponent(List.of(), List.of(false),List.of(),List.of()))), CAOCAOBSKILL_KEY);
     //注册曹操P技能
     public static final RegistryKey<Item> CAOCAOPSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaopskill"));
     public static final Item CAOCAOPSKILL = register(new CaoCaoPSkill( new Item.Settings().registryKey(CAOCAOPSKILL_KEY)), CAOCAOPSKILL_KEY);
