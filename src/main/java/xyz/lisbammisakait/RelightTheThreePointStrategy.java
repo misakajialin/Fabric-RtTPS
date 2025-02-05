@@ -90,7 +90,6 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		PayloadTypeRegistry.playC2S().register(SkillSlotPayload.ID, SkillSlotPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SkillSlotPayload.ID, (payload, context) -> {
 			context.server().execute(() -> {
-				context.player().sendMessage(Text.of("使用技能"), true);
 				useSkill(context.server(),context.player(), payload.slot());
 			});
 		});
@@ -273,7 +272,6 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	private void useSkill(MinecraftServer server, ServerPlayerEntity player, int slot) {
 		PlayerInventory inventory = player.getInventory();
 		ItemStack skillStack = inventory.getStack(slot);
-		//
 		if (skillStack.isEmpty()||!(skillStack.getItem() instanceof ActiveSkillable)) {
 			RelightTheThreePointStrategy.LOGGER.info("并非技能物品");
 			return;

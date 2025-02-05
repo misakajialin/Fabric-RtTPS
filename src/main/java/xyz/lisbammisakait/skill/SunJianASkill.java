@@ -1,5 +1,7 @@
 package xyz.lisbammisakait.skill;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -11,6 +13,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
@@ -33,16 +36,15 @@ public class SunJianASkill extends Item implements ActiveSkillable {
 
     @Override
     public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
-        // 创建一个新的物品栈
-        ItemStack newItemStack = new ItemStack(ModItems.UNLAUNCHABLE, 1);
-        // 将技能B位置更换为新的物品栈
-        serverplayer.getInventory().main.set(8, newItemStack);
-//        boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
-//        if (isExhausted) {
-//            serverplayer.sendMessage(Text.of("你已经使用过该技能"), true);
-//            return;
-//        }
-//        stack.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, true);
+        //更改技能图标
+        stack.set(DataComponentTypes.CUSTOM_MODEL_DATA,new CustomModelDataComponent(List.of(), List.of(false),List.of(),List.of()));
+        //限定技是否使用
+        boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
+        if (isExhausted) {
+            serverplayer.sendMessage(Text.of("你已经使用过该技能"), true);
+            return;
+        }
+        stack.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, true);
 
         // 获取服务器中的除了自己和死亡的人之外的所有玩家
         List<ServerPlayerEntity> playerList = PlayerListGet.getNonSelfAndNonRespawningPlayers(server, serverplayer);
