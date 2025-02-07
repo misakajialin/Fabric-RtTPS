@@ -33,10 +33,13 @@ public class SunJianASkill extends Item implements ActiveSkillable {
 
     @Override
     public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
+        RelightTheThreePointStrategy.LOGGER.info("1");
         // 创建一个新的物品栈
         ItemStack newItemStack = new ItemStack(ModItems.UNLAUNCHABLE, 1);
+        RelightTheThreePointStrategy.LOGGER.info("2");
         // 将技能B位置更换为新的物品栈
         serverplayer.getInventory().main.set(8, newItemStack);
+        RelightTheThreePointStrategy.LOGGER.info("3");
 //        boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
 //        if (isExhausted) {
 //            serverplayer.sendMessage(Text.of("你已经使用过该技能"), true);
