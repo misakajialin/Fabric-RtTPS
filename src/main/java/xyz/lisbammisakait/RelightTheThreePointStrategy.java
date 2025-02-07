@@ -36,11 +36,11 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
+import xyz.lisbammisakait.config.RttpsConfig;
 import xyz.lisbammisakait.item.ModItems;
 import xyz.lisbammisakait.network.packet.SkillSlotPayload;
 import xyz.lisbammisakait.skill.ActiveSkillable;
 import xyz.lisbammisakait.tools.Pile;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,7 +54,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
+	private boolean isMapBinding = false;
 	@Override
 	public void onInitialize() {
         // This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -62,14 +62,18 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		// Proceed with mild caution.
 		ModItems.initialize();
 		RtTPSComponents.initialize();
-		// 注册服务器启动事件
-		ServerLifecycleEvents.SERVER_STARTED.register(this::createScoreboard);
-		//下方法即将被废弃,请使用新api
+		isMapBinding = Boolean.parseBoolean(RttpsConfig.getProperty("isBindingMap"));
+		if(isMapBinding){
+			// 注册服务器启动事件
+			ServerLifecycleEvents.SERVER_STARTED.register(this::createScoreboard);
+			//下方法即将被废弃,请使用新api
 //		ServerPlayerEvents.ALLOW_DEATH.register(this::preventDeath);
-		//以下为新api
-		ServerLivingEntityEvents.ALLOW_DEATH.register(this::handlePlayerDeath);
-
-		AttackEntityCallback.EVENT.register(this::deadPlayerDisarm);
+			//以下为新api
+			ServerLivingEntityEvents.ALLOW_DEATH.register(this::handlePlayerDeath);
+			AttackEntityCallback.EVENT.register(this::deadPlayerDisarm);
+			// 注册服务器tick事件
+			ServerTickEvents.END_SERVER_TICK.register(this::serverEndTick);
+		}
 	// 注册获取剩余复活次数的命令
 //		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("getrsc")
 //				.then(argument("target", EntityArgumentType.player())
@@ -95,8 +99,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		});
 
 		LOGGER.info("Hello Fabric world!");
-		// 注册服务器tick事件
-		ServerTickEvents.END_SERVER_TICK.register(this::serverEndTick);
+
 		// 注册发动刘备技能的数据包
 //		PayloadTypeRegistry.playC2S().register(LiuBeiASkillPayload.ID, LiuBeiASkillPayload.CODEC);
 //        ServerPlayNetworking.registerGlobalReceiver(LiuBeiASkillPayload.ID, (payload, context) -> {
@@ -112,6 +115,8 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 //            });
 //        });
 	}
+
+
 
 	private ActionResult deadPlayerDisarm(PlayerEntity playerEntity, World world, Hand hand, Entity entity, @Nullable EntityHitResult entityHitResult) {
 		ItemStack mark = playerEntity.getInventory().getStack(MARKSLOT);
