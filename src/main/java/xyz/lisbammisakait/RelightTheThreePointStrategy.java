@@ -1,6 +1,7 @@
 package xyz.lisbammisakait;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -21,6 +22,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardCriterion;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -41,9 +43,11 @@ import xyz.lisbammisakait.item.ModItems;
 import xyz.lisbammisakait.network.packet.SkillSlotPayload;
 import xyz.lisbammisakait.skill.ActiveSkillable;
 import xyz.lisbammisakait.tools.Pile;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import static xyz.lisbammisakait.skill.MarkItem.MARKSLOT;
 import static xyz.lisbammisakait.tools.Pile.*;
 
@@ -261,16 +265,19 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 			scoreAccess.setScore(-1);
 		}
 	}
-	private void detectGameOver(MinecraftServer server){
-
-	}
 	private void createScoreboard(MinecraftServer server) {
 		Scoreboard scoreboard = server.getScoreboard();
 		if(scoreboard.getNullableObjective("isGameStarted")==null){
 			scoreboard.addObjective("isGameStarted", ScoreboardCriterion.DUMMY, Text.of("游戏是否开始"), ScoreboardCriterion.RenderType.INTEGER,true,null);
 		}
+		if(scoreboard.getNullableObjective("genRandom")==null){
+			scoreboard.addObjective("genRandom", ScoreboardCriterion.DUMMY, Text.of("生成随机数"), ScoreboardCriterion.RenderType.INTEGER,true,null);
+		}
 		ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("isGameStarted");
 		ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", respawnCountSBO);
+
+		ScoreboardObjective randomSBO = scoreboard.getNullableObjective("genRandom");
+		ScoreAccess randomScoreAccess = scoreboard.getOrCreateScore(() -> "Random", respawnCountSBO);
 		scoreAccess.setScore(0);
 	}
 
