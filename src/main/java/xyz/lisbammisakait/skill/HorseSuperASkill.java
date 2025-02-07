@@ -19,6 +19,7 @@ public class HorseSuperASkill extends Item implements ActiveSkillable {
 
     @Override
     public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
+        //更换技能图标
         stack.set(DataComponentTypes.CUSTOM_MODEL_DATA,new CustomModelDataComponent(List.of(), List.of(false),List.of(),List.of()));
         boolean isExhausted = stack.getOrDefault(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,true);
         if (isExhausted) {

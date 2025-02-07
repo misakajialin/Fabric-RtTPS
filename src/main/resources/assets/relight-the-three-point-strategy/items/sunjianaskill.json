@@ -9,7 +9,7 @@
     },
     "on_true": {
       "type": "minecraft:model",
-      "model": "relight-the-three-point-strategy:item/caocaobskill"
+      "model": "relight-the-three-point-strategy:item/sunjianaskill"
     }
   }
 }

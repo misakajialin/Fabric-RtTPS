@@ -26,9 +26,7 @@ public class PoluItem extends  RtTPSSwordItem {
     public void specialAbility(ItemStack stack, net.minecraft.entity.LivingEntity target, net.minecraft.entity.LivingEntity attacker) {
         PlayerEntity player =(PlayerEntity)attacker;
         addHitNumber(player, target, stack);
-        if (player != null) {
-            player.sendMessage(Text.of("攻击次数: " + stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE,0)), true);
-        }
+        player.sendMessage(Text.of("攻击次数: " + stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0)), true);
         if(stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0) >= HITNUMBER){
             //设置使用次数为0
             stack.set(RtTPSComponents.HITNUMBER_TYPE,0);

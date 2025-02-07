@@ -85,10 +85,15 @@ public class ModItems {
             .component(DataComponentTypes.CUSTOM_MODEL_DATA,new CustomModelDataComponent(List.of(), List.of(true),List.of(),List.of()))), HORSESUPERASKILL_KEY);
     //注册张角A技能
     public static final RegistryKey<Item> ZHANGJIAOASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "zhangjiaoaskill"));
-    public static final Item ZHANGJIAOASKILL = register(new ZhangJiaoASKill( new Item.Settings().registryKey(ZHANGJIAOASKILL_KEY).component(RtTPSComponents.USENUMBER_TYPE,0)), ZHANGJIAOASKILL_KEY);
+    public static final Item ZHANGJIAOASKILL = register(new ZhangJiaoASKill( new Item.Settings()
+            .registryKey(ZHANGJIAOASKILL_KEY)
+            .component(RtTPSComponents.USENUMBER_TYPE,0)), ZHANGJIAOASKILL_KEY);
     //注册曹操B技能
     public static final RegistryKey<Item> CAOCAOBSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaobskill"));
-    public static final Item CAOCAOBSKILL = register(new CaoCaoBSkill( new Item.Settings().registryKey(CAOCAOBSKILL_KEY)), CAOCAOBSKILL_KEY);
+    public static final Item CAOCAOBSKILL = register(new CaoCaoBSkill( new Item.Settings()
+            .registryKey(CAOCAOBSKILL_KEY)
+            .component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)
+            .component(DataComponentTypes.CUSTOM_MODEL_DATA,new CustomModelDataComponent(List.of(), List.of(false),List.of(),List.of()))), CAOCAOBSKILL_KEY);
     //注册曹操P技能
     public static final RegistryKey<Item> CAOCAOPSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "caocaopskill"));
     public static final Item CAOCAOPSKILL = register(new CaoCaoPSkill( new Item.Settings().registryKey(CAOCAOPSKILL_KEY)), CAOCAOPSKILL_KEY);
@@ -97,11 +102,16 @@ public class ModItems {
     public static final Item CAOCAOASKILL = register(new CaoCaoASkill( new Item.Settings().registryKey(CAOCAOASKILL_KEY)), CAOCAOASKILL_KEY);
     //注册孙坚A技能
     public static final RegistryKey<Item> SUNJIANASKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "sunjianaskill"));
-    public static final Item SUNJIANASKILL = register(new SunJianASkill( new Item.Settings().registryKey(SUNJIANASKILL_KEY).component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)), SUNJIANASKILL_KEY);
+    public static final Item SUNJIANASKILL = register(new SunJianASkill( new Item.Settings()
+            .registryKey(SUNJIANASKILL_KEY)
+            .component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)
+            .component(DataComponentTypes.CUSTOM_MODEL_DATA,new CustomModelDataComponent(List.of(), List.of(true),List.of(),List.of()))), SUNJIANASKILL_KEY);
     //注册孙坚P技能
     public static final RegistryKey<Item> SUNJIANPSKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "sunjianpskill"));
-    public static final Item SUNJIANPSKILL = register(new SunJianPSkill( new Item.Settings().registryKey(SUNJIANPSKILL_KEY)), SUNJIANPSKILL_KEY);
-    //注册孙坚P技能
+    public static final Item SUNJIANPSKILL = register(new SunJianPSkill( new Item.Settings()
+            .registryKey(SUNJIANPSKILL_KEY)
+            .component(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE,false)), SUNJIANPSKILL_KEY);
+    //注册孙坚P2技能
     public static final RegistryKey<Item> SUNJIANP2SKILL_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "sunjianp2skill"));
     public static final Item SUNJIANP2SKILL = register(new SunJianP2Skill( new Item.Settings().registryKey(SUNJIANP2SKILL_KEY)), SUNJIANP2SKILL_KEY);
 

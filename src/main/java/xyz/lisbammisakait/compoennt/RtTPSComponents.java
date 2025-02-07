@@ -13,7 +13,7 @@ public class RtTPSComponents {
         // Technically this method can stay empty, but some developers like to notify
         // the console, that certain parts of the mod have been successfully initialized
     }
-    //注册限定技是否使用组件
+    //注册限定技是否使用组件,假为未使用,真为已经使用
     public static final ComponentType<Boolean> LIMITEDSKILLEXHAUSTED_TYPE = Registry.register(
             Registries.DATA_COMPONENT_TYPE,
             Identifier.of(RelightTheThreePointStrategy.MOD_ID, "limitedskillexhausted"),
@@ -34,6 +34,7 @@ public class RtTPSComponents {
             Identifier.of(RelightTheThreePointStrategy.MOD_ID, "remainingrespawncount"),
             ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
+    //真为在重生阶段,假为不在重生阶段
     public static final ComponentType<Boolean> ISWITHINRESPAWNPHASE_TYPE = Registry.register(
             Registries.DATA_COMPONENT_TYPE,
             Identifier.of(RelightTheThreePointStrategy.MOD_ID, "iswithinrespawnphase"),
