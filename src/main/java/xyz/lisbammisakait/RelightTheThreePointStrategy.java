@@ -8,11 +8,14 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.Portal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -137,6 +140,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 			int rsc = mark.get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE);
 			mark.set(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE, rsc - 1);
 			if(rsc==-1) {
+				//死亡后设置旁观者模式
 				if (!handleGameOver(livingEntity)) player.interactionManager.changeGameMode(GameMode.SPECTATOR);
 			}else {
 				//复活操作
@@ -152,7 +156,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		MinecraftServer server =  livingEntity.getServer();
 		AtomicInteger deadPlayerCount = new AtomicInteger();
 		//检测玩家是否全部死亡
-		server.getPlayerManager().getPlayerList().parallelStream().forEach(player -> {
+		server.getPlayerManager().getPlayerList().forEach(player -> {
 			if(player.getInventory().getStack(MARKSLOT).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE)==0){
 				deadPlayerCount.getAndIncrement();
 			}
@@ -166,11 +170,13 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 				if (attribute != null) {
 					attribute.removeModifier(MAX_HEALTH_ID);
 				}
+				//传送回大厅
 				player.teleport(player.getServer().getWorld(player.getWorld().getRegistryKey()), 167, 257, 280, Collections.emptySet(), 0, 0, false);
 				player.getInventory().clear();
 				player.setOnFire(false);
 				player.setHealth(player.getMaxHealth());
 				player.clearStatusEffects();
+				player.interactionManager.changeGameMode(GameMode.ADVENTURE);
 			});
 			//设置游戏结束
 			Scoreboard scoreboard = server.getScoreboard();
@@ -222,6 +228,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 							getMinDistance(Collections.singleton(player), world,han, maxY, false);
 							break;
 					}
+					player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 5 * 20, 5));
 					inventory.getStack(MARKSLOT).set(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE, false);
 //					player.teleport(player.getServer().getWorld(player.getWorld().getRegistryKey()), 0, 98, 0, Collections.emptySet(), 0, 0, false);
 				} catch (InterruptedException e) {
@@ -266,6 +273,12 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 //				});
 			scoreAccess.setScore(-1);
 			gameStatus = -1;
+			server.getPlayerManager().getPlayerList().forEach(player -> {
+				player.sendMessage(Text.of("游戏开始"), true);
+				player.setHealth(player.getMaxHealth());
+				//给玩家添加抗性效果
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 5 * 20, 5));
+			});
 		}
 	}
 	private void createScoreboard(MinecraftServer server) {
