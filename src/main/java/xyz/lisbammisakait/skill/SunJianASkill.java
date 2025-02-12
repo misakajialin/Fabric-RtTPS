@@ -3,6 +3,7 @@ package xyz.lisbammisakait.skill;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import xyz.lisbammisakait.RelightTheThreePointStrategy;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
@@ -78,10 +80,18 @@ public class SunJianASkill extends Item implements ActiveSkillable {
                     DamageSource damageSource = new DamageSource(, serverplayer);
                     targetPlayer.damage(world, damageSource,40);*/
                     ServerWorld world = (ServerWorld) serverplayer.getWorld();
+//                    DamageSource damageSource = new DamageSource(serverplayer.getRegistryManager()
+//                            .getOrThrow(RegistryKeys.DAMAGE_TYPE)
+//                            .getEntry(new DamageType("player",0.0F)),serverplayer,serverplayer);Identifier.ofVanilla("player_attack")
                     DamageSource damageSource = new DamageSource(serverplayer.getRegistryManager()
                             .getOrThrow(RegistryKeys.DAMAGE_TYPE)
-                            .getEntry(new DamageType("player",0.0F)));
+                            .getEntry(Identifier.ofVanilla("player_attack")).get(),serverplayer,serverplayer);
                     targetPlayer.damage(world, damageSource,40F);
+
+//                    DamageSource damageSource2 = new DamageSource(serverplayer.getRegistryManager()
+//                            .getOrThrow(RegistryKeys.DAMAGE_TYPE)
+//                            .getEntry(DamageTypes.GENERIC_KILL.getRegistry()),serverplayer,serverplayer);
+
                 }
             }
         }
