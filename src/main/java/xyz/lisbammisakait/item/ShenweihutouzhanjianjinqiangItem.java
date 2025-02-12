@@ -41,7 +41,10 @@ public class ShenweihutouzhanjianjinqiangItem extends HutouzhanjinqiangItem {
             EntityFinder entityFinder = new EntityFinder();
             List<LivingEntity> nearbyEntities = entityFinder.getNearbyEntities(user,(ServerWorld) attacker.getWorld(), RANGE,LivingEntity.class);
             for (LivingEntity nearbyEntity : nearbyEntities) {
-                if (!nearbyEntity.equals(user)||!nearbyEntity.equals(target)) {
+//                if (!nearbyEntity.equals(user)||!nearbyEntity.equals(target)) {
+//                    knockup(nearbyEntity, attacker);
+//                }
+                if (!nearbyEntity.equals(user)) {
                     knockup(nearbyEntity, attacker);
                 }
             }

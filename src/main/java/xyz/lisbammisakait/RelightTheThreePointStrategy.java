@@ -157,7 +157,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		AtomicInteger deadPlayerCount = new AtomicInteger();
 		//检测玩家是否全部死亡
 		server.getPlayerManager().getPlayerList().forEach(player -> {
-			if(player.getInventory().getStack(MARKSLOT).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE)==0){
+			if(player.getInventory().getStack(MARKSLOT).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE)==-1){
 				deadPlayerCount.getAndIncrement();
 			}
 		});
