@@ -59,6 +59,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	private boolean isMapBinding = false;
+	private int gameStatus = 0;
 	@Override
 	public void onInitialize() {
         // This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -184,6 +185,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 			player.setHealth(player.getMaxHealth());
 			player.clearStatusEffects();
 			player.setOnFire(false);
+			player.setFireTicks(0);
 			ServerWorld world = player.getServer().getWorld(player.getWorld().getRegistryKey());
 			player.teleport(world, 0, 257, -2, Collections.emptySet(), 0, 0, false);
 			player.getServer().getPlayerManager().getPlayerList().forEach(Notifiee -> {
@@ -263,6 +265,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 //					}
 //				});
 			scoreAccess.setScore(-1);
+			gameStatus = -1;
 		}
 	}
 	private void createScoreboard(MinecraftServer server) {
@@ -270,14 +273,8 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		if(scoreboard.getNullableObjective("isGameStarted")==null){
 			scoreboard.addObjective("isGameStarted", ScoreboardCriterion.DUMMY, Text.of("游戏是否开始"), ScoreboardCriterion.RenderType.INTEGER,true,null);
 		}
-		if(scoreboard.getNullableObjective("genRandom")==null){
-			scoreboard.addObjective("genRandom", ScoreboardCriterion.DUMMY, Text.of("生成随机数"), ScoreboardCriterion.RenderType.INTEGER,true,null);
-		}
 		ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("isGameStarted");
 		ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", respawnCountSBO);
-
-		ScoreboardObjective randomSBO = scoreboard.getNullableObjective("genRandom");
-		ScoreAccess randomScoreAccess = scoreboard.getOrCreateScore(() -> "Random", respawnCountSBO);
 		scoreAccess.setScore(0);
 	}
 
@@ -286,6 +283,9 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		ItemStack skillStack = inventory.getStack(slot);
 		if (skillStack.isEmpty()||!(skillStack.getItem() instanceof ActiveSkillable)) {
 			RelightTheThreePointStrategy.LOGGER.info("并非技能物品");
+			return;
+		}
+		if(gameStatus!=-1){
 			return;
 		}
 		ActiveSkillable skill = (ActiveSkillable) skillStack.getItem();
