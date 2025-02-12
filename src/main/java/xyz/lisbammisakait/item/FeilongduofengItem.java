@@ -15,7 +15,7 @@ import java.util.Random;
 public class FeilongduofengItem extends RtTPSSwordItem {
     public static final int PROBABILITY = 30;
     public static final int FIRETIME = 2;
-    public final int MAX_HEALTH = 30;
+    public final int MAX_HEALTH = 80;
     public FeilongduofengItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }

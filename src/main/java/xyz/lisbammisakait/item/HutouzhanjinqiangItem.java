@@ -25,7 +25,7 @@ import java.util.*;
 
 public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     public final int COOLDOWN = 30;
-    public final int MAX_HEALTH = 30;
+    public final int MAX_HEALTH = 60;
     // 存储玩家使用技能的时间
     protected static final Map<PlayerEntity, Long> SKILL_USE_TIME_MAP = new HashMap<>();
     // 技能持续时间,单位秒

@@ -33,14 +33,14 @@ import java.util.Map;
 
 public class CanghaitulongfuItem extends  RtTPSSwordItem {
     public static final int HITNUMBER = 5;
-
+    public final int MAX_HEALTH = 100;
     public CanghaitulongfuItem(ToolMaterial material, float attackDamage, float attackSpeed, Item.Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-
+        boostMaxHealth((PlayerEntity) entity, MAX_HEALTH);
     }
 
     @Override

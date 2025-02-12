@@ -31,7 +31,7 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
     public static int PROBABILITY = 50;
     public static final float COOLDOWN_REDUCTION = 7.0F;
     public static final int HITNUMBER = 3;
-    public final int MAX_HEALTH = 50;
+    public final int MAX_HEALTH = 40;
     public LeitingzhizhangItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
