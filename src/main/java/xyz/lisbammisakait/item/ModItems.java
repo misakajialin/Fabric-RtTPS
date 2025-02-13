@@ -45,7 +45,7 @@ public class ModItems {
     public static final Item MARK = register(new MarkItem(new Item.Settings().registryKey(MARK_KEY).component(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE,5).component(RtTPSComponents.ISWITHINRESPAWNPHASE_TYPE,false)), MARK_KEY);
     //注册飞龙夺凤
     public static final RegistryKey<Item> FEILONGDUOFENG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "feilongduofeng"));
-    public static final Item FEILONGDUOFENG = register(new FeilongduofengItem(ToolMaterial.GOLD, 4f, 20f, new Item.Settings().registryKey(FEILONGDUOFENG_KEY).component(RtTPSComponents.FACTION_TYPE,0)), FEILONGDUOFENG_KEY);
+    public static final Item FEILONGDUOFENG = register(new FeilongduofengItem(ToolMaterial.GOLD, 5f, 20f, new Item.Settings().registryKey(FEILONGDUOFENG_KEY).component(RtTPSComponents.FACTION_TYPE,0)), FEILONGDUOFENG_KEY);
     //注册虎头湛金枪
     public static final RegistryKey<Item> HUTOUZHANJINQIANG_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelightTheThreePointStrategy.MOD_ID, "hutouzhanjinqiang"));
     public static final Item HUTOUZHANJINQIANG = register(new HutouzhanjinqiangItem(ToolMaterial.GOLD, 6f, 20f, new Item.Settings().registryKey(HUTOUZHANJINQIANG_KEY).component(RtTPSComponents.FACTION_TYPE,0)), HUTOUZHANJINQIANG_KEY);

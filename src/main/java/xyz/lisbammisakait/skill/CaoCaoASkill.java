@@ -33,6 +33,7 @@ public class CaoCaoASkill extends Item implements ActiveSkillable {
     public static final int DISTANCE = 8;
     public static final int EFFECT_AMPLIFIER = 1;
     private final int COOLDOWN = 50;
+    private final int RECOVERHEALTH = 20;
 
     public CaoCaoASkill(Settings settings) {
         super(settings);
@@ -42,7 +43,11 @@ public class CaoCaoASkill extends Item implements ActiveSkillable {
     public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
         teleportPlayersTowardsTarget(serverplayer, server.getWorld(serverplayer.getWorld().getRegistryKey()), DISTANCE);
         if (hasOtherPlayersNearby(serverplayer)) {
-            serverplayer.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, EFFECT_AMPLIFIER));
+            float currentHealth = serverplayer.getHealth();
+            float maxHealth = serverplayer.getMaxHealth();
+            if (currentHealth < maxHealth) {
+                serverplayer.setHealth(Math.min(currentHealth + RECOVERHEALTH, maxHealth));
+            }
         }
         serverplayer.getItemCooldownManager().set(stack, COOLDOWN * 20);
     }

@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import xyz.lisbammisakait.compoennt.RtTPSComponents;
 
 public class PoluItem extends  RtTPSSwordItem {
-    public static final int HITNUMBER = 30;
+    public static final int HITNUMBER = 15;
     public final int MAX_HEALTH = 60;
     public PoluItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);

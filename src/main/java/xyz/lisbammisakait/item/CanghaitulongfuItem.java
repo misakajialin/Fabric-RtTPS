@@ -55,6 +55,7 @@ public class CanghaitulongfuItem extends  RtTPSSwordItem {
         addHitNumber(player, target, stack);
         player.sendMessage(Text.of("攻击次数: " + stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0)), true);
         if(stack.getOrDefault(RtTPSComponents.HITNUMBER_TYPE, 0) >= HITNUMBER){
+            stack.set(RtTPSComponents.HITNUMBER_TYPE,0);
             ItemStack caoCaoBSkill = player.getInventory().getStack(7);
             caoCaoBSkill.set(RtTPSComponents.LIMITEDSKILLEXHAUSTED_TYPE, false);
             //改变纹理为技能图标

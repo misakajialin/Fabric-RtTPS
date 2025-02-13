@@ -29,7 +29,7 @@ public class HutouzhanjinqiangItem extends RtTPSSwordItem {
     // 存储玩家使用技能的时间
     protected static final Map<PlayerEntity, Long> SKILL_USE_TIME_MAP = new HashMap<>();
     // 技能持续时间,单位秒
-    protected final int SKILL_DURATION = 10 ;
+    protected final int SKILL_DURATION = 80 ;
 
     public HutouzhanjinqiangItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
