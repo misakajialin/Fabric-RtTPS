@@ -32,7 +32,7 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
     public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity player, ItemStack stack) {
         if (player.getItemCooldownManager().isCoolingDown(stack)) {
             // 如果物品正在冷却中，直接返回
-            float cdr2 =  player.getItemCooldownManager().getCooldownProgress(stack, 0.0F)*40;
+            float cdr2 =  player.getItemCooldownManager().getCooldownProgress(stack, 0.0F)*COOLDOWN;
             player.sendMessage(Text.of("剩余冷却时间："+cdr2), true);
 //            client.player.sendMessage(Text.of("剩余冷却时间："+cdr2), true);
 //            user.sendMessage(Text.of("技能冷却中"), true);

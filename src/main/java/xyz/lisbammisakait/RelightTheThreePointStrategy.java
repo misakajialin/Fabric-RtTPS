@@ -20,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.scoreboard.ScoreAccess;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardCriterion;
@@ -46,11 +47,9 @@ import xyz.lisbammisakait.item.ModItems;
 import xyz.lisbammisakait.network.packet.SkillSlotPayload;
 import xyz.lisbammisakait.skill.ActiveSkillable;
 import xyz.lisbammisakait.tools.Pile;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import static xyz.lisbammisakait.skill.MarkItem.MARKSLOT;
 import static xyz.lisbammisakait.tools.Pile.*;
 
@@ -62,7 +61,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	private boolean isMapBinding = false;
-	private int gameStatus = 0;
+	public static int gameStatus = 0;
 	@Override
 	public void onInitialize() {
         // This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -77,6 +76,9 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 			//下方法即将被废弃,请使用新api
 //		ServerPlayerEvents.ALLOW_DEATH.register(this::preventDeath);
 			//以下为新api
+//			PlayerEvents.DROP_ITEM.register((player, stack, source) -> {
+//				return ActionResult.FAIL; // 返回 FAIL 表示取消丢弃物品的操作
+//			});
 			ServerLivingEntityEvents.ALLOW_DEATH.register(this::handlePlayerDeath);
 			AttackEntityCallback.EVENT.register(this::deadPlayerDisarm);
 			// 注册服务器tick事件
@@ -137,8 +139,11 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	private boolean handlePlayerDeath(LivingEntity livingEntity, DamageSource damageSource, float damageAmount){
 		if(livingEntity instanceof ServerPlayerEntity player){
 			ItemStack mark  = player.getInventory().getStack(MARKSLOT);
+			mark.set(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE, mark.get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE) - 1);
 			int rsc = mark.get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE);
-			mark.set(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE, rsc - 1);
+			Scoreboard scoreboard = player.getServer().getScoreboard();
+			ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("respawnCount");
+			scoreboard.getOrCreateScore(player::getNameForScoreboard, respawnCountSBO).setScore(player.getInventory().getStack(MARKSLOT).getOrDefault(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE,5));
 			if(rsc==-1) {
 				//死亡后设置旁观者模式
 				if (!handleGameOver(livingEntity)) player.interactionManager.changeGameMode(GameMode.SPECTATOR);
@@ -154,15 +159,18 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	}
 	private boolean handleGameOver(LivingEntity livingEntity){
 		MinecraftServer server =  livingEntity.getServer();
-		AtomicInteger deadPlayerCount = new AtomicInteger();
+		AtomicInteger deadPlayerCount = new AtomicInteger(0);
 		//检测玩家是否全部死亡
 		server.getPlayerManager().getPlayerList().forEach(player -> {
 			if(player.getInventory().getStack(MARKSLOT).get(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE)==-1){
 				deadPlayerCount.getAndIncrement();
+				LOGGER.info(player.getName().getString()+"已死亡");
 			}
 		});
+		LOGGER.info("死亡玩家数量："+deadPlayerCount.get()+ "总玩家数量："+server.getPlayerManager().getPlayerList().size());
 		//如果全部死亡或一人存活则游戏结束
 		if (deadPlayerCount.get() >= server.getPlayerManager().getPlayerList().size()-1) {
+			LOGGER.info("游戏结束");
 			//游戏结束后重置玩家状态
 			server.getPlayerManager().getPlayerList().forEach(player -> {
 				player.sendMessage(Text.of("游戏结束"), true);
@@ -171,18 +179,19 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 					attribute.removeModifier(MAX_HEALTH_ID);
 				}
 				//传送回大厅
+				player.interactionManager.changeGameMode(GameMode.ADVENTURE);
 				player.teleport(player.getServer().getWorld(player.getWorld().getRegistryKey()), 167, 257, 280, Collections.emptySet(), 0, 0, false);
 				player.getInventory().clear();
 				player.setOnFire(false);
 				player.setHealth(player.getMaxHealth());
 				player.clearStatusEffects();
-				player.interactionManager.changeGameMode(GameMode.ADVENTURE);
 			});
 			//设置游戏结束
 			Scoreboard scoreboard = server.getScoreboard();
 			ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("isGameStarted");
 			ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", respawnCountSBO);
 			scoreAccess.setScore(2);
+			gameStatus = 2;
 			return true;
 		}
 		return false;
@@ -209,7 +218,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 					player.sendMessage(Text.of("复活倒计时：0s"), true);
 					Inventory inventory= player.getInventory();
 					int faction = inventory.getStack(0).getOrDefault(RtTPSComponents.FACTION_TYPE, 0);
-					int maxY = 257;
+					int maxY = 150;
 					switch (faction){
 						case 0:
 							Pile[] shu = spreadPlayer(world, new Vec2f(0, 60), 1, 25, maxY, false, Collections.singleton(player));
@@ -263,8 +272,8 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 	//-1为游戏进行中,0为游戏未开始，1为游戏开始,2为游戏结束
 	private void changeGameStatus(MinecraftServer server){
 		Scoreboard scoreboard = server.getScoreboard();
-		ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("isGameStarted");
-		ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", respawnCountSBO);
+		ScoreboardObjective gameStartedSBO = scoreboard.getNullableObjective("isGameStarted");
+		ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", gameStartedSBO);
 		if(scoreAccess.getScore()==1){
 //				server.getPlayerManager().getPlayerList().forEach(player -> {
 //					if(player.getInventory().contains(ModItems.LEITINGZHIZHANG.getDefaultStack())){
@@ -277,18 +286,27 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 				player.sendMessage(Text.of("游戏开始"), true);
 				player.setHealth(player.getMaxHealth());
 				//给玩家添加抗性效果
-				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 5 * 20, 5));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 10 * 20, 5));
 			});
 		}
+		//复活次数计分板
+		if(scoreboard.getNullableObjective("respawnCount")==null){
+			scoreboard.addObjective("respawnCount", ScoreboardCriterion.DUMMY, Text.of("剩余复活次数"), ScoreboardCriterion.RenderType.INTEGER,true,null);
+		}
+		ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("respawnCount");
+		server.getPlayerManager().getPlayerList().forEach(player -> {
+			scoreboard.getOrCreateScore(player::getNameForScoreboard, respawnCountSBO).setScore(player.getInventory().getStack(MARKSLOT).getOrDefault(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE,5));
+		});
 	}
 	private void createScoreboard(MinecraftServer server) {
 		Scoreboard scoreboard = server.getScoreboard();
 		if(scoreboard.getNullableObjective("isGameStarted")==null){
 			scoreboard.addObjective("isGameStarted", ScoreboardCriterion.DUMMY, Text.of("游戏是否开始"), ScoreboardCriterion.RenderType.INTEGER,true,null);
 		}
-		ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("isGameStarted");
-		ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", respawnCountSBO);
+		ScoreboardObjective gameStartedSBO = scoreboard.getNullableObjective("isGameStarted");
+		ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", gameStartedSBO);
 		scoreAccess.setScore(0);
+		gameStatus = 0;
 	}
 
 	private void useSkill(MinecraftServer server, ServerPlayerEntity player, int slot) {

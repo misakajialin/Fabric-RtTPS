@@ -41,6 +41,12 @@ public class CaoCaoASkill extends Item implements ActiveSkillable {
 
     @Override
     public void processPracticalSkill(MinecraftServer server, ServerPlayerEntity serverplayer, ItemStack stack) {
+        if (serverplayer.getItemCooldownManager().isCoolingDown(stack)) {
+            // 如果物品正在冷却中，直接返回
+            float cdr2 =  serverplayer.getItemCooldownManager().getCooldownProgress(stack, 0.0F)*COOLDOWN;
+            serverplayer.sendMessage(Text.of("剩余冷却时间："+cdr2), true);
+            return ;
+        }
         teleportPlayersTowardsTarget(serverplayer, server.getWorld(serverplayer.getWorld().getRegistryKey()), DISTANCE);
         if (hasOtherPlayersNearby(serverplayer)) {
             float currentHealth = serverplayer.getHealth();

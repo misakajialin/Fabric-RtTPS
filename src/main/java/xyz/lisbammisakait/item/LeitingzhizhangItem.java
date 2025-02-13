@@ -62,7 +62,7 @@ public class LeitingzhizhangItem extends  RtTPSSwordItem {
             stack.set(RtTPSComponents.HITNUMBER_TYPE,0);
             //给攻击者添加速度效果
             attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, SPEED_DURATION*20, SPEED_AMPLIFIER));
-            ItemStack skillstack = player.getInventory().getStack(7);
+            ItemStack skillstack = player.getInventory().getStack(8);
             RemainingCooldownGetter itemCooldownManager = (RemainingCooldownGetter) player.getItemCooldownManager();
             float cdr =  (float) itemCooldownManager.getRemainingCooldown(skillstack) /20;
 //            RelightTheThreePointStrategy.LOGGER.info("剩余冷却时间："+cdr);
