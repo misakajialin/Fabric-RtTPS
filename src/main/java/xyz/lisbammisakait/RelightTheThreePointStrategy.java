@@ -21,10 +21,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
-import net.minecraft.scoreboard.ScoreAccess;
-import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.scoreboard.ScoreboardCriterion;
-import net.minecraft.scoreboard.ScoreboardObjective;
+import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -188,9 +185,12 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 			});
 			//设置游戏结束
 			Scoreboard scoreboard = server.getScoreboard();
-			ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("isGameStarted");
-			ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", respawnCountSBO);
+			ScoreboardObjective gameStartedSBO = scoreboard.getNullableObjective("isGameStarted");
+			ScoreAccess scoreAccess = scoreboard.getOrCreateScore(() -> "gameStarted", gameStartedSBO);
 			scoreAccess.setScore(2);
+			//移除复活次数计分板
+			ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("respawnCount");
+			scoreboard.removeObjective(respawnCountSBO);
 			gameStatus = 2;
 			return true;
 		}
@@ -297,6 +297,7 @@ public class RelightTheThreePointStrategy implements ModInitializer {
 		server.getPlayerManager().getPlayerList().forEach(player -> {
 			scoreboard.getOrCreateScore(player::getNameForScoreboard, respawnCountSBO).setScore(player.getInventory().getStack(MARKSLOT).getOrDefault(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE,5));
 		});
+		scoreboard.setObjectiveSlot(ScoreboardDisplaySlot.SIDEBAR,respawnCountSBO);
 	}
 	private void createScoreboard(MinecraftServer server) {
 		Scoreboard scoreboard = server.getScoreboard();

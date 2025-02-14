@@ -11,8 +11,10 @@ import xyz.lisbammisakait.RelightTheThreePointStrategy;
 public abstract class LivingEntityMixin {
     @Inject(method = "swapHandStacks", at = @At("HEAD"), cancellable = true)
     private void swapHandStacksPrevent(CallbackInfo ci){
+        RelightTheThreePointStrategy.LOGGER.info("触发事件");
         if(RelightTheThreePointStrategy.gameStatus==1||RelightTheThreePointStrategy.gameStatus==-1){
             // 取消
+            RelightTheThreePointStrategy.LOGGER.info("swapHandStacksPrevent");
             ci.cancel();
         }
 

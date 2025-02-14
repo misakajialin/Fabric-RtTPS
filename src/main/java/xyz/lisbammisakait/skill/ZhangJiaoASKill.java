@@ -5,6 +5,8 @@ import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -19,6 +21,7 @@ import java.lang.invoke.VarHandle;
 import java.util.List;
 
 import static xyz.lisbammisakait.compoennt.RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE;
+import static xyz.lisbammisakait.skill.MarkItem.MARKSLOT;
 
 public class ZhangJiaoASKill extends Item implements ActiveSkillable {
     private final int COOLDOWN = 40;
@@ -63,6 +66,9 @@ public class ZhangJiaoASKill extends Item implements ActiveSkillable {
         if(stack.getOrDefault(RtTPSComponents.USENUMBER_TYPE,0)==SPNUMBER){
             stack.set(RtTPSComponents.USENUMBER_TYPE,0);
             stack.set(REMAININGRESPAWNCOUNT_TYPE,stack.getOrDefault(REMAININGRESPAWNCOUNT_TYPE,0)+1);
+            Scoreboard scoreboard = server.getScoreboard();
+            ScoreboardObjective respawnCountSBO = scoreboard.getNullableObjective("respawnCount");
+            scoreboard.getOrCreateScore(serverplayer::getNameForScoreboard, respawnCountSBO).setScore(serverplayer.getInventory().getStack(MARKSLOT).getOrDefault(RtTPSComponents.REMAININGRESPAWNCOUNT_TYPE,5));
 //            try {
 //                增加玩家的复活次数
 //                VarHandle playerHandle = MethodHandles.lookup().findVarHandle(PlayerEntity.class, "respawnCount", int.class);

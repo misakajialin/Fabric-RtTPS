@@ -16,6 +16,7 @@ public abstract class ClientPlayerEntityMixin {
     private void dropSelectedItemCancel(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         if(RelightTheThreePointStrategy.gameStatus==1||RelightTheThreePointStrategy.gameStatus==-1){
             // 取消丢弃物品
+            RelightTheThreePointStrategy.LOGGER.info("dropSelectedItemCancel");
             cir.setReturnValue(false);
         }
     }
